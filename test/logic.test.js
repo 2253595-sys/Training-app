@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v7/);
+  assert.match(sw, /boets-v8/);
   assert.equal(sw.includes("./img/ex/"), false);
   assert.match(sw, /img\/ex\//);
   const { existsSync } = require("node:fs");
