@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">АРСДРОЙД</string>
+    <string name="title_activity_main">АРСДРОЙД — ЯРОСТЬ</string>
+    <string name="package_name">app.boets.training</string>
+    <string name="custom_url_scheme">app.boets.training</string>
+    <string name="health_rationale_title">Почему Боец просит доступ</string>
+    <string name="health_rationale_body">Боец читает из Health Connect шаги, тренировки и калории за сегодня и последние 7 дней. Эти данные нужны, чтобы показать дневную активность и отметить совпавший день программы.\n\nШаги, тип тренировки, длительность и калории остаются на телефоне и никуда не отправляются. Доступ можно закрыть в любой момент в приложении Health Connect.</string>
+</resources>

@@ -1,4 +1,7 @@
 const STORAGE_KEY = "boets-v1";
+/* Portrait on the splash and the Progress screen. Swap to "img/arseniy-mma-cap.webp" for the cap. */
+const HERO_IMAGE = "img/arseniy-mma.webp";
+document.documentElement.style.setProperty("--hero-image", 'url("' + HERO_IMAGE + '")');
 
 const VIDEOS = {
   zaryadkaFollow: { id: "umuRFbcJa8A", title: "Суставная гимнастика, 10 минут — Татьяна Метельская" },
@@ -40,14 +43,15 @@ const VIDEOS = {
   benchDip: { id: "bmWukN0ZCkc", title: "Отжимания от скамьи на трицепс. Правильная техника" }
 };
 
-const ZARYADKA = {
-  id: "zaryadka",
-  title: "Утренняя зарядка",
+const ZARYADKA_SHORT = {
+  id: "zaryadka-short",
+  title: "Короткая зарядка",
   place: "Дом",
   duration: "10–15 мин",
-  intro: "Каждое утро, дома, с гантелями. Если очень мало времени — сделай видео суставной гимнастики и махи на плечи.",
+  block: "short",
+  intro: "Если совсем мало времени: видео суставной гимнастики и короткая связка с гантелями. Техника на YouTube.",
   exercises: [
-    { id: "z-follow", name: "Суставная гимнастика", sets: 1, reps: "8–10 мин", rest: 0, logWeight: false, video: "zaryadkaFollow", notes: "Можно просто повторять за видео. Если идёшь по списку ниже — это разминка на 8–10 минут, пункты 2–7 тогда короче." },
+    { id: "z-follow", name: "Суставная гимнастика", sets: 1, reps: "8–10 мин", rest: 0, logWeight: false, video: "zaryadkaFollow", notes: "Можно просто повторять за видео." },
     { id: "z-cat", name: "Кошка-корова", sets: 1, reps: "8–10", rest: 0, logWeight: false, video: "catCow", notes: "Медленно, дыхание в такт движению. Без боли в шее." },
     { id: "z-squat", name: "Приседания без веса", sets: 2, reps: "12–15", rest: 45, logWeight: false, video: "bwSquat", notes: "Пятки на полу, колени в сторону носков." },
     { id: "z-push", name: "Отжимания", sets: 2, reps: "8–12", rest: 45, logWeight: false, video: "pushup", notes: "Если тяжело — руки на возвышении (стол, диван)." },
@@ -55,6 +59,56 @@ const ZARYADKA = {
     { id: "z-lat", name: "Махи гантелями в стороны", sets: 2, reps: "12–15", rest: 45, logWeight: true, video: "latRaise", notes: "Лёгкий вес, это активация средних дельт, не отказ." },
     { id: "z-stretch", name: "Растяжка грудных", sets: 1, reps: "30–40 сек на сторону", rest: 0, logWeight: false, video: "chestStretch", notes: "В дверном проёме или у стены. Без боли в плече." }
   ]
+};
+
+const ZARYADKA_A = {
+  id: "zaryadka-a",
+  title: "Зарядка · блок A",
+  place: "Дом",
+  duration: "12–15 мин",
+  block: "a",
+  intro: "Пн, ср, пт и вс: таз, мобильность, мужское здоровье. Блок B — во вт, чт и сб.",
+  exercises: [
+    { id: "z-butterfly", name: "Бабочка с движением коленей", sets: 1, reps: "1–2 мин", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/DfhrI5zM2rP/"], notes: "Спокойная амплитуда, без боли в паху." },
+    { id: "z-bridge-kegel", name: "Ягодичный мост с Кегелем", sets: 2, reps: "20", rest: 30, logWeight: false, instagram: ["https://www.instagram.com/reel/DfhrI5zM2rP/"], notes: "Вверху сожми ягодицы и мышцы тазового дна на 2 секунды." },
+    { id: "z-legs-apart", name: "Ноги в стороны лёжа", sets: 1, reps: "20", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/DZWsJouJ3bm/"], notes: "Ноги вверх под 90°, разведи на вдохе, сведи на выдохе." },
+    { id: "z-butterfly-bridge", name: "Мост «бабочка» с задержкой дыхания", sets: 3, reps: "10–20 сек", rest: 20, logWeight: false, instagram: ["https://www.instagram.com/reel/DZWsJouJ3bm/"], notes: "Удерживай положение и мягко сожми тазовое дно." },
+    { id: "z-malasana", name: "Глубокий присед-гирлянда", sets: 1, reps: "2–3 мин", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/DfD_wa4scMI/"], notes: "Маласана с перекатами на четвереньки. Пятки можно подложить." },
+    { id: "z-child", name: "Поза ребёнка", sets: 1, reps: "30–60 сек", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/DfhrI5zM2rP/"], notes: "Лоб к полу, дыхание спокойное." }
+  ]
+};
+
+const ZARYADKA_B = {
+  id: "zaryadka-b",
+  title: "Зарядка · блок B",
+  place: "Дом",
+  duration: "12–15 мин",
+  block: "b",
+  intro: "Вт, чт и сб: спина, плечи, осанка. Блок A — в пн, ср, пт и вс.",
+  exercises: [
+    { id: "z-rev-plank", name: "Подъём таза из обратной планки", sets: 1, reps: "20", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/De8nFa3qgCa/", "https://www.instagram.com/reel/DfF0PUHsAoF/"], notes: "Подкрути таз в верхней точке. Два ролика — одна и та же идея с разных ракурсов." },
+    { id: "z-wide-fold", name: "Наклон с широко расставленными ногами", sets: 1, reps: "60 сек", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/De8nFa3qgCa/"], notes: "Колени мягкие, спина длинная." },
+    { id: "z-9090", name: "Перекаты 90/90", sets: 1, reps: "20", rest: 0, logWeight: false, instagram: ["https://www.instagram.com/reel/De8nFa3qgCa/"], notes: "Колени около 90°, перекат без рывка." },
+    { id: "z-thoracic", name: "Скручивания грудного отдела на четвереньках", sets: 2, reps: "10 на сторону", rest: 20, logWeight: false, instagram: ["https://www.instagram.com/reel/De8nFa3qgCa/"], notes: "Таз спокойный, вращается грудной отдел." },
+    { id: "z-needle", name: "Скольжение рукой «игольное ушко»", sets: 2, reps: "10 на сторону", rest: 20, logWeight: false, instagram: ["https://www.instagram.com/reel/De8nFa3qgCa/"], notes: "Продень руку под корпусом и раскрой грудной отдел на возврате." }
+  ]
+};
+
+const OFFICE_WARMUP = [
+  { id: "hindu-push", name: "Индусские отжимания", sets: 3, reps: "6–10", rest: 60, logWeight: false, instagram: ["https://www.instagram.com/reel/De7Pl9wogKw/"], notes: "Отжимания волной для плеч и груди. Грудь к полу, таз вверх, без провала в пояснице." },
+  { id: "chair-flow", name: "Комплекс со стулом", sets: 3, reps: "5 циклов", rest: 60, logWeight: false, instagram: ["https://www.instagram.com/reel/DfVM_J9Kl_t/"], notes: "Пайк-удержание, затем группировка, затем отжимание с ногами на стуле." },
+  { id: "handstand-wall", name: "Стойка на руках у стены", sets: 3, reps: "20–30 сек", rest: 45, logWeight: false, unlock: "handstand", instagram: ["https://www.instagram.com/reel/DfboC8uoutH/"], notes: "Вход в стойку у стены. Полная стойка — цель на 3–6 месяцев." }
+];
+
+const CARDIO_FINISHER = {
+  id: "cardio-finisher",
+  name: "Кардио-финишер: упор лёжа — прыжок в присед",
+  sets: 5,
+  reps: "10",
+  rest: 40,
+  logWeight: false,
+  instagram: ["https://www.instagram.com/reel/De95shmtnJM/"],
+  notes: "5×10 = 50 повторов. Это добивка к дню, она не заменяет цель 10–15 тысяч шагов."
 };
 
 const DAYS = [
@@ -79,8 +133,9 @@ const DAYS = [
     title: "Подтягивания и руки",
     place: "Офис", tag: "office", duration: "35–45 мин",
     focus: "Турник · плечи · руки · 8 кг",
-    intro: "Практика подтягиваний и многоповторная работа с гантелями 8 кг. Темп медленный, пауза в пике сокращения.",
+    intro: "Сначала индусские отжимания и комплекс со стулом, затем практика подтягиваний и многоповторная работа с гантелями 8 кг. Темп медленный, пауза в пике сокращения.",
     exercises: [
+      ...OFFICE_WARMUP,
       { id: "tm-tue", name: "Беговая дорожка, разминка", sets: 1, reps: "5 мин", rest: 0, logWeight: false, notes: "Лёгкий шаг, разогрей плечи круговыми движениями." },
       { id: "band-pullup", name: "Подтягивания с эспандером", sets: 5, reps: "макс (цель 5–8)", rest: 90, logWeight: false, video: "bandPullup", notes: "Резина помогает, грудь к перекладине, без рывка. Оставь 1 повтор в запасе." },
       { id: "neg-pullup", name: "Негативные подтягивания", sets: 3, reps: "3–5", rest: 90, logWeight: false, video: "negPullup", notes: "Подбородок над турником (можно с опоры), спуск 3–5 секунд." },
@@ -113,13 +168,14 @@ const DAYS = [
     title: "Лёгкий день · теннис",
     place: "Офис", tag: "tennis", duration: "20–25 мин",
     focus: "Подтягивания и мобилити",
-    intro: "Сегодня теннис — не выжигай руки до игры. Подтягивания не до отказа. Дорожку можно после матча как заминку.",
+    intro: "Сегодня теннис — не выжигай руки до игры. Подтягивания не до отказа. В конце короткий кардио-финишер: он не заменяет шаги.",
     exercises: [
       { id: "band-thu", name: "Подтягивания с эспандером", sets: 4, reps: "макс, не в отказ", rest: 90, logWeight: false, video: "bandPullup", notes: "Оставь 2 повтора в запасе. Сегодня восстановление важнее рекорда." },
       { id: "scap-thu", name: "Лопаточные подтягивания", sets: 3, reps: "8–10", rest: 60, logWeight: false, video: "scapPull", notes: "Вис, плечи от ушей, сведи лопатки вниз-назад, локти прямые." },
       { id: "hang-thu", name: "Активный вис на турнике", sets: 3, reps: "20–40 сек", rest: 60, logWeight: false, video: "activeHang", notes: "Плечи опущены, корпус чуть в тонусе. Если хват слабый — короче время." },
       { id: "mob-thu", name: "Мобилити плеч и грудного отдела", sets: 1, reps: "8–10 мин", rest: 0, logWeight: false, video: "mobility", notes: "Повторяй за видео. Без боли, дыхание спокойное." },
-      { id: "tm-thu", name: "Дорожка по желанию", sets: 1, reps: "10–15 мин", rest: 0, logWeight: false, notes: "Лёгкий шаг, не гонка. Можно после тенниса." }
+      { id: "tm-thu", name: "Дорожка по желанию", sets: 1, reps: "10–15 мин", rest: 0, logWeight: false, notes: "Лёгкий шаг, не гонка. Можно после тенниса." },
+      CARDIO_FINISHER
     ]
   },
   {
@@ -130,7 +186,7 @@ const DAYS = [
     intro: "Главный день плеч плюс вторые ноги. Если мало времени — убери икры и сократи суперсет до 2 кругов.",
     exercises: [
       { id: "db-ohp", name: "Жим гантелей сидя вверх", sets: 4, reps: "8–10", rest: 120, logWeight: true, video: "dbOhp", notes: "Спинка почти вертикальная. Не выгибай поясницу." },
-      { id: "lat-fri", name: "Махи в стороны", sets: 4, reps: "12–15", rest: 60, logWeight: true, video: "latRaise", notes: "В последнем подходе — дроп-сет: до утруднения, скинь вес, ещё 8–12." },
+      { id: "lat-fri", name: "Махи в стороны", sets: 4, reps: "12–15", rest: 60, logWeight: true, video: "latRaise", notes: "В последнем подходе — дроп-сет: до утомления, скинь вес, ещё 8–12." },
       { id: "rear-fri", name: "Махи в наклоне, задние дельты", sets: 3, reps: "12–15", rest: 60, logWeight: true, video: "rearDelt", notes: "Корпус почти параллелен полу, только плечо работает." },
       { id: "chest-mach", name: "Жим в тренажёре на грудь", sets: 3, reps: "10–12", rest: 75, logWeight: true, video: "chestMachine", notes: "Добивка груди. Можно заменить разведениями гантелей." },
       { id: "leg-press", name: "Жим ногами", sets: 3, reps: "8–12", rest: 105, logWeight: true, video: "legPress", notes: "Альтернатива — выпады. Поясницу не отрывай от спинки." },
@@ -145,8 +201,9 @@ const DAYS = [
     title: "Подтягивания и плечи",
     place: "Офис", tag: "office", duration: "35–45 мин",
     focus: "Турник · плечи · руки · 8 кг",
-    intro: "Второй офисный объём. Снова практика подтягиваний и многоповторка с 8 кг, чуть другой набор движений, чем во вторник.",
+    intro: "Второй офисный объём. Сначала индусские отжимания и стул, затем подтягивания и многоповторка с 8 кг.",
     exercises: [
+      ...OFFICE_WARMUP,
       { id: "tm-sat", name: "Беговая дорожка, разминка", sets: 1, reps: "5–8 мин", rest: 0, logWeight: false, notes: "Лёгкий шаг." },
       { id: "band-sat", name: "Подтягивания с эспандером", sets: 5, reps: "макс (цель 5–8)", rest: 90, logWeight: false, video: "bandPullup", notes: "Тот же критерий прогресса: 3 тренировки подряд 5×8 — бери резину тоньше." },
       { id: "scap-sat", name: "Лопаточные подтягивания", sets: 3, reps: "8–10", rest: 60, logWeight: false, video: "scapPull", notes: "Учись включать спину до обычных подтягиваний." },
@@ -162,9 +219,10 @@ const DAYS = [
     title: "Отдых",
     place: "Дом", tag: "rest", duration: "прогулка",
     focus: "Восстановление",
-    intro: "Силовых нет. 10–15 тысяч шагов, сон, белок 160–180 г. Зарядку можно сделать, если тело просит подвигаться — без отказа.",
+    intro: "Силовых нет. 10–15 тысяч шагов, сон, белок 160–180 г. Кардио-финишер в конце — добавка, не замена прогулке.",
     exercises: [
-      { id: "walk", name: "Прогулка 10–15 тысяч шагов", sets: 1, reps: "день", rest: 0, logWeight: false, notes: "Можно разбить на несколько выходов. Это не день дивана." }
+      { id: "walk", name: "Прогулка 10–15 тысяч шагов", sets: 1, reps: "день", rest: 0, logWeight: false, notes: "Можно разбить на несколько выходов. Это не день дивана." },
+      CARDIO_FINISHER
     ]
   }
 ];
@@ -224,6 +282,25 @@ function dayPlan(d) {
   const key = weekdayOf(d);
   return DAYS.find((x) => x.key === key);
 }
+function zaryadkaAuto(date) {
+  const dow = date.getDay();
+  if (dow === 2 || dow === 4 || dow === 6) return ZARYADKA_B;
+  return ZARYADKA_A;
+}
+function zaryadkaDisplayed(date) {
+  if (ui.zBlock === "a") return ZARYADKA_A;
+  if (ui.zBlock === "b") return ZARYADKA_B;
+  if (ui.zBlock === "short") return ZARYADKA_SHORT;
+  return zaryadkaAuto(date);
+}
+function isExerciseUnlocked(ex, state) {
+  if (!ex || ex.unlock !== "handstand") return true;
+  return !!(state && (state.handstandUnlocked || state.cycleWeek >= 4));
+}
+function planExercises(plan) {
+  const state = getState();
+  return plan.exercises.filter((ex) => isExerciseUnlocked(ex, state));
+}
 
 function loadState() {
   try {
@@ -241,6 +318,8 @@ function getState() {
   if (!s.lastWeights) s.lastWeights = {};
   if (!s.cycleWeek) s.cycleWeek = 1;
   if (!s.pullLevel) s.pullLevel = 1;
+  if (!s.steps) s.steps = {};
+  if (!s.shopping) s.shopping = {};
   return s;
 }
 function updateState(mut) {
@@ -266,12 +345,22 @@ function exLog(dateStr, scope, exId) {
 function completedCount(dateStr, plan, scope) {
   const log = dayLog(dateStr, scope);
   let done = 0, total = 0;
-  plan.exercises.forEach((ex) => {
+  planExercises(plan).forEach((ex) => {
     total += ex.sets;
     const st = (log[ex.id] && log[ex.id].sets) || [];
     done += st.filter(Boolean).length;
   });
   return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
+}
+function bestZaryadkaStats(date) {
+  const iso = isoDate(date);
+  const plans = [zaryadkaAuto(date), ZARYADKA_A, ZARYADKA_B, ZARYADKA_SHORT];
+  let best = completedCount(iso, plans[0], "zaryadka");
+  plans.forEach((plan) => {
+    const stats = completedCount(iso, plan, "zaryadka");
+    if (stats.done > best.done) best = stats;
+  });
+  return best;
 }
 
 /* ------------ timer ------------ */
@@ -333,27 +422,72 @@ function renderTimer() {
     root.innerHTML = "";
     return;
   }
-  const left = timer.running ? (timer.endsAt - Date.now()) / 1000 : 0;
+  const left = timer.running ? Math.max(0, (timer.endsAt - Date.now()) / 1000) : 0;
+  const pct = timer.total ? Math.max(0, Math.min(1, left / timer.total)) : 0;
+  const radius = 86;
+  const circ = 2 * Math.PI * radius;
+  const dash = (circ * pct).toFixed(1);
+  const urgent = timer.running && left <= 5 && left > 0;
   root.innerHTML = `
-    <div class="timer${timer.done ? " done" : ""}">
-      <div class="time">${timer.done ? "0:00" : formatSec(left)}</div>
-      <div class="lbl"><b>${timer.done ? "Отдых закончен" : timer.label}</b>${timer.done ? "Можно следующий подход" : "осталось"}</div>
-      ${timer.done ? `<button type="button" data-act="close">Ок</button>` : `<button type="button" class="ghost" data-act="stop">Стоп</button>`}
+    <div class="ring-timer emo${timer.done ? " done" : ""}${urgent ? " urgent" : ""}">
+      <div class="emo-bg" aria-hidden="true"></div>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="ring-bg" cx="100" cy="100" r="${radius}"></circle>
+          <circle class="ring-fg" cx="100" cy="100" r="${radius}" stroke-dasharray="${dash} ${circ.toFixed(1)}"></circle>
+        </svg>
+        <div class="ring-time">${timer.done ? "0:00" : formatSec(left)}</div>
+      </div>
+      <div class="ring-label">${timer.done ? "Отдых закончен" : escapeHtml(timer.label || "Отдых")}</div>
+      <div class="ring-actions">
+        <button type="button" data-timer="-15">−15</button>
+        <button type="button" class="primary" data-timer="skip">${timer.done ? "Дальше" : "Пропустить"}</button>
+        <button type="button" data-timer="15">+15</button>
+      </div>
     </div>`;
-  root.querySelector("button").addEventListener("click", stopTimer);
+  root.querySelectorAll("[data-timer]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const act = button.dataset.timer;
+      if (act === "skip") stopTimer();
+      else if (timer.running) {
+        const delta = Number(act) * 1000;
+        timer.endsAt += delta;
+        timer.total = Math.max(1, timer.total + Number(act));
+        renderTimer();
+      }
+    });
+  });
 }
 
 /* ------------ render ------------ */
 const ui = {
-  tab: "today", // today | zaryadka | week | guide
+  tab: "today",
   date: todayDate(),
   installEvent: null,
-  hideInstall: false
+  hideInstall: false,
+  zBlock: "auto",
+  foodView: "today",
+  recipeId: null,
+  menuDayIndex: null,
+  panel: null,
+  exId: null,
+  showList: false,
+  activity: {
+    loading: false,
+    error: "",
+    availability: "",
+    permissions: null,
+    days: null,
+    sessions: null,
+    editDate: null
+  }
 };
 
 function setTab(tab) {
   ui.tab = tab;
+  ui.panel = null;
   render({ scroll: "top" });
+  if ((tab === "today" || tab === "progress") && typeof refreshActivity === "function") refreshActivity();
 }
 
 function refreshProgress() {
@@ -372,12 +506,18 @@ function render(opts) {
   const d = parseIso(ui.date);
   const plan = dayPlan(d);
   const s = getState();
+  const immersive = ui.panel === "done" || ui.panel === "record" || (!ui.panel && ui.tab === "progress");
   app.innerHTML = `
-    ${renderHeader(d, s)}
-    ${ui.tab === "today" ? renderInstall() + renderWeekStrip(d) + renderDay(d, plan, "workout") : ""}
-    ${ui.tab === "zaryadka" ? renderZaryadka(d) : ""}
-    ${ui.tab === "week" ? renderWeek(d) : ""}
-    ${ui.tab === "guide" ? renderGuide(s) : ""}
+    ${immersive ? "" : renderHeader(d, s)}
+    ${ui.panel === "warmup" ? renderZaryadka(d) : ""}
+    ${ui.panel === "exercise" ? renderExerciseFocus(d, plan) : ""}
+    ${ui.panel === "done" ? renderDone(d, plan) : ""}
+    ${ui.panel === "record" ? renderRecord() : ""}
+    ${!ui.panel && ui.tab === "today" ? renderTodayHome(d, plan) : ""}
+    ${!ui.panel && ui.tab === "week" ? renderWeek(d) : ""}
+    ${!ui.panel && ui.tab === "guide" ? renderGuide(s) : ""}
+    ${!ui.panel && ui.tab === "progress" ? renderProgress(d, s) : ""}
+    ${!ui.panel && ui.tab === "food" && typeof renderFood === "function" ? renderFood() : ""}
   `;
   bind(d, plan);
   renderNav();
@@ -386,20 +526,28 @@ function render(opts) {
   else if (opts.scroll === "keep") window.scrollTo(0, y);
 }
 
+function screenTitle() {
+  if (ui.panel === "warmup") return "Зарядка";
+  if (ui.panel === "exercise") return "Упражнение";
+  return { today: "Сегодня", week: "Неделя", food: "Питание", progress: "Прогресс", guide: "План" }[ui.tab] || "Сегодня";
+}
 function renderHeader(d, s) {
   const rule = WEEK_RULES[s.cycleWeek - 1];
+  const shown = ui.tab === "food" ? parseIso(todayDate()) : d;
+  const food = ui.tab === "food";
+  const foodDay = food && globalThis.FOOD ? FOOD.menu.days[menuIndexFromDate(shown)] : null;
   return `
-    <header class="top">
-      <div class="brand">
-        <div class="brand-kicker">Программа · цикл ${s.cycleWeek}/4</div>
-        <h1>Боец</h1>
-        <div class="today-date">${d.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" })} · ${rule ? rule.title : ""}</div>
-      </div>
+    <header class="top${food ? " food-hero" : ""}">
+      ${food ? `<div class="emo-img" aria-hidden="true"></div>` : ""}
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ" height="20">
+      <h1 class="h1">${screenTitle()}</h1>
+      <div class="kicker">${shown.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" })}${foodDay ? " · " + escapeHtml(foodDay.type) : ""} · цикл ${s.cycleWeek}/4</div>
+      <div class="sub">${food ? "Белок 160–180 г каждый день" : (rule ? rule.title : "")}</div>
     </header>`;
 }
 
 function renderInstall() {
-  if (ui.hideInstall || window.matchMedia("(display-mode: standalone)").matches) return "";
+  if ((typeof isNativeApp === "function" && isNativeApp()) || ui.hideInstall || window.matchMedia("(display-mode: standalone)").matches) return "";
   const canPrompt = !!ui.installEvent;
   return `
     <div class="install" id="install-box">
@@ -428,7 +576,7 @@ function renderWeekStrip(selected) {
       iso === today ? "is-today" : "",
       stats.done > 0 && stats.done >= stats.total ? "is-done" : ""
     ].join(" ");
-    cells.push(`<button type="button" class="${cls}" data-date="${iso}"><span class="d">${plan.short}</span><span class="n">${d.getDate()}</span></button>`);
+    cells.push(`<button type="button" class="${cls}" data-date="${iso}" style="--tag:${tagColor(plan.tag)}"><span class="d">${plan.short}</span><span class="n">${d.getDate()}</span><span class="tick"></span></button>`);
   }
   return `<div class="week-strip">${cells.join("")}</div>`;
 }
@@ -441,6 +589,219 @@ function pillClass(tag) {
   return "";
 }
 
+const PLACES = {
+  home: { type: "Дома утром", location: "Радужная", pill: "home" },
+  rest: { type: "Дом", location: "Радужная", pill: "rest" },
+  office: { type: "Офис", location: "Оболдино", pill: "office" },
+  gym: { type: "Фитнес утром", location: "Варежки", pill: "" },
+  tennis: { type: "Теннис", location: "Игра в зале", pill: "tennis" }
+};
+function placeMeta(plan) {
+  if (plan && (plan.block || plan.id === "zaryadka-a" || plan.id === "zaryadka-b" || plan.id === "zaryadka-short")) return PLACES.home;
+  if (plan && plan.tag === "rest") return PLACES.rest;
+  if (plan && PLACES[plan.tag]) return PLACES[plan.tag];
+  return { type: (plan && plan.place) || "", location: "", pill: "home" };
+}
+function nextOpen(iso, plan, scope) {
+  const state = getState();
+  const exercises = planExercises(plan);
+  for (let n = 0; n < exercises.length; n++) {
+    const ex = exercises[n];
+    const sets = (state.days[iso] && state.days[iso][scope] && state.days[iso][scope][ex.id] && state.days[iso][scope][ex.id].sets) || [];
+    for (let i = 0; i < ex.sets; i++) if (!sets[i]) return { ex: ex, index: i, number: plan.exercises.indexOf(ex) + 1 };
+  }
+  return null;
+}
+function stepsOn(iso) {
+  if (typeof isNativeApp === "function" && isNativeApp() && ui.activity && ui.activity.days && ui.activity.days.length) {
+    const row = ui.activity.days.filter((item) => item.date === iso)[0];
+    if (row) return Math.max(0, Math.round(Number(row.steps) || 0));
+  }
+  const saved = getState().steps || {};
+  return Math.max(0, Math.round(Number(saved[iso]) || 0));
+}
+function renderTodayHome(d, plan) {
+  const iso = isoDate(d);
+  const stats = completedCount(iso, plan, "workout");
+  const info = placeMeta(plan);
+  const next = nextOpen(iso, plan, "workout");
+  const zPlan = zaryadkaDisplayed(d);
+  const zStats = completedCount(iso, zPlan, "zaryadka");
+  const steps = stepsOn(iso);
+  const goal = typeof goalStatus === "function" ? goalStatus(steps, d) : { steps: steps, state: "below", goalLow: 10000, goalHigh: 10000, sunday: false };
+  const manual = !(typeof isNativeApp === "function" && isNativeApp() && ui.activity && ui.activity.days && ui.activity.days.length);
+  const foodCard = renderFoodTeaser();
+  const list = ui.showList ? `
+    ${plan.exercises.map((ex, i) => renderExercise(iso, "workout", ex, i)).join("")}
+    <div class="day-actions">
+      <button class="btn" type="button" data-act="complete-all">Отметить всё</button>
+      <button class="btn ghost" type="button" data-act="reset-day">Сбросить день</button>
+    </div>` : `<button class="linkish" type="button" data-show-list>Все упражнения</button>`;
+  return `
+    ${renderInstall()}
+    ${renderWeekStrip(d)}
+    <section class="hero emo" style="--tag:${tagColor(plan.tag)}">
+      <div class="emo-img" aria-hidden="true"></div>
+      <div class="place-row">
+        <span class="pill ${info.pill}">${escapeHtml(info.type)}</span>
+        ${info.location ? `<span class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(info.location)}</span>` : ""}
+      </div>
+      <h2>${escapeHtml(plan.title)}</h2>
+      <p>${escapeHtml(plan.duration)} · ${escapeHtml(plan.focus)}</p>
+      ${healthNote(iso, "workout")}
+      <div class="progress-line">
+        <div class="bar"><span style="width:${stats.pct}%"></span></div>
+        <b>${stats.done}/${stats.total}</b>
+        <small>подходов</small>
+      </div>
+      ${next ? `
+        <div class="next-row">
+          <div class="ex-num">${String(next.number).padStart(2, "0")}</div>
+          <div>
+            <h3>${escapeHtml(next.ex.name)}</h3>
+            <div class="chips"><span class="chip">${next.ex.sets} × ${escapeHtml(next.ex.reps)}</span>${next.ex.rest ? `<span class="chip rest">отдых ${formatRest(next.ex.rest)}</span>` : ""}</div>
+          </div>
+        </div>
+        <button class="btn primary" type="button" data-continue="${escapeAttr(next.ex.id)}">${icon("play")} Продолжить</button>` : `<button class="btn ok" type="button" disabled>Тренировка закрыта</button>`}
+    </section>
+    <div class="dash-grid">
+      <button type="button" class="mini-card" data-open-warmup>
+        <div class="card-title">${icon("sunrise")} Зарядка</div>
+        <strong>${zStats.done}/${zStats.total}</strong>
+        <span>подходов · ${escapeHtml(zPlan.title.replace("Зарядка · ", ""))}</span>
+        <div class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(PLACES.home.location)}</div>
+      </button>
+      <div class="mini-card">
+        <div class="card-title">${icon("footprints")} Шаги</div>
+        <strong>${formatSteps(steps)}</strong>
+        <div class="goal-track"><div class="goal-fill${goal.state === "below" ? "" : " is-met"}" style="width:${Math.min(100, Math.round((steps / Math.max(goal.goalHigh, steps, 1)) * 100))}%"></div></div>
+        <span>${goal.sunday ? "из " + formatSteps(goal.goalLow) + "–" + formatSteps(goal.goalHigh) : "из " + formatSteps(goal.goalLow)}</span>
+        ${manual ? `<form class="steps-form" id="steps-form" data-steps-for="${iso}"><input id="steps-input" type="number" inputmode="numeric" min="0" max="200000" step="1" value="${steps || ""}" aria-label="Шаги"><button class="btn" type="submit">Ок</button></form>` : `<span class="loc">${icon("heart-pulse")} Health Connect</span>`}
+      </div>
+    </div>
+    ${foodCard}
+    ${list}`;
+}
+function renderFoodTeaser() {
+  if (!globalThis.FOOD || !FOOD.menu) return "";
+  const day = FOOD.menu.days[menuIndexFromDate(parseIso(todayDate()))];
+  if (!day) return "";
+  const kcalRange = typeof parseRange === "function" ? parseRange(day.target_kcal) : null;
+  const proteinRange = typeof parseRange === "function" ? parseRange(FOOD.menu.targets.protein_g) : null;
+  const fatRange = typeof parseRange === "function" ? parseRange(FOOD.menu.targets.fat_g) : null;
+  const remainder = typeof carbRemainder === "function" ? carbRemainder(kcalRange, day.totals.protein, day.totals.fat) : null;
+  return `
+    <button type="button" class="card" data-open-food style="width:100%;text-align:left;color:inherit">
+      <div class="card-title">${icon("utensils")} Питание сегодня</div>
+      <div class="kcal-hero">${formatMacro(day.totals.kcal)}<small>/ ${escapeHtml(day.target_kcal)}</small></div>
+      <p class="kbju"><span class="p">Б ${formatMacro(day.totals.protein)}</span> <span class="f">Ж ${formatMacro(day.totals.fat)}</span> <span class="c">У ${formatMacro(day.totals.carbs)}</span>${remainder != null ? ` · остаток ${formatMacro(remainder)} г` : ""}</p>
+    </button>`;
+}
+function renderDone(d, plan) {
+  const iso = isoDate(d);
+  const stats = completedCount(iso, plan, "workout");
+  const info = placeMeta(plan);
+  return `
+    <section class="scene done">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <div class="es-img" aria-hidden="true"></div>
+      <div class="es-shade" aria-hidden="true"></div>
+      <div class="es-bottom">
+        <p class="kicker">${escapeHtml(plan.title)} · ${escapeHtml(info.location)}</p>
+        <h2 class="h2">Тренировка завершена</h2>
+        <p>Отдыхай. Белок 160–180 г за день.</p>
+        <div class="wstat">
+          <div><b>${stats.done}/${stats.total}</b><span>подходов</span></div>
+          <div><b>${escapeHtml(plan.duration)}</b><span>по плану</span></div>
+        </div>
+        <button class="btn primary" type="button" data-log-weight>${icon("scale")} Записать вес</button>
+        <button class="linkish" type="button" data-back>На главную</button>
+      </div>
+    </section>`;
+}
+function renderRecord() {
+  const rec = ui.record || {};
+  const shareText = rec.name ? rec.name + ": " + rec.weight + " кг, было " + rec.prev + " кг" : "";
+  return `
+    <section class="scene record">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <div class="es-img" aria-hidden="true"></div>
+      <div class="es-shade" aria-hidden="true"></div>
+      <div class="es-bottom">
+        <p class="kicker">Новый рекорд</p>
+        <h2 class="h2">${escapeHtml(rec.name || "")}</h2>
+        <p>${escapeHtml(rec.note || "Рабочий вес выше прошлой отметки.")}</p>
+        <div class="wstat">
+          <div><b>${escapeHtml(rec.weight || "")}</b><span>кг</span></div>
+          <div><b>${escapeHtml(rec.prev || "")}</b><span>было, кг</span></div>
+        </div>
+        <button class="btn primary" type="button" data-record-next>Дальше</button>
+        ${shareText ? `<button class="linkish" type="button" data-share="${escapeAttr(shareText)}">Поделиться</button>` : ""}
+      </div>
+    </section>`;
+}
+function maybeFinishDay(iso, plan, scope) {
+  if (scope !== "workout") return;
+  const stats = completedCount(iso, plan, "workout");
+  if (stats.total && stats.done >= stats.total) ui.panel = "done";
+}
+function renderExerciseFocus(d, plan) {
+  const iso = isoDate(d);
+  const ex = plan.exercises.filter((item) => item.id === ui.exId)[0] || plan.exercises[0];
+  if (!ex) return "";
+  const idx = plan.exercises.indexOf(ex);
+  return `
+    <button type="button" class="back-btn" data-back aria-label="Назад">${icon("chevron-right")}</button>
+    <p class="kicker">${escapeHtml(plan.title)} · ${String(idx + 1).padStart(2, "0")} / ${String(plan.exercises.length).padStart(2, "0")}</p>
+    <h2 class="h2">${escapeHtml(ex.name)}</h2>
+    ${renderExercise(iso, "workout", ex, idx)}`;
+}
+function renderProgress(d, s) {
+  const weights = s.bodyWeight || {};
+  const iso = todayDate();
+  const todayWeight = weights[iso];
+  const nums = Object.keys(weights).sort().map((key) => ({ date: key, kg: Number(weights[key]) })).filter((row) => Number.isFinite(row.kg));
+  const last = nums.length ? nums[nums.length - 1].kg : null;
+  const delta = last != null ? Math.round((last - 100) * 10) / 10 : null;
+  const rows = typeof chartRows === "function" ? chartRows() : [];
+  return `
+    <section class="goal-hero">
+      <img class="hero-photo" src="${HERO_IMAGE}" alt="">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <h1 class="h1">Прогресс</h1>
+      <div class="gh-text">
+        <div class="kicker">Цель</div>
+        <div class="gh-goal">90<small>кг</small></div>
+        <p>Широкие плечи, руки, торс. Старт программы — 100 кг.</p>
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-title">${icon("scale")} Вес</div>
+      <div class="kcal-hero">${todayWeight ? escapeHtml(String(todayWeight).replace(".", ",")) : "—" }<small>кг</small></div>
+      <p>${delta == null ? "Запишите вес — график строится только по вашим отметкам." : "От старта 100 кг: " + (delta > 0 ? "+" : "") + String(delta).replace(".", ",") + " кг"}</p>
+      <form class="steps-form" id="weight-form">
+        <input id="weight-input" type="number" inputmode="decimal" min="40" max="200" step="0.1" value="${todayWeight || ""}" aria-label="Вес сегодня, кг">
+        <button class="btn primary" type="submit" style="width:auto">${icon("scale")} Записать</button>
+      </form>
+      ${nums.length ? `<div class="chart" style="margin-top:12px">${nums.slice(-7).map((row) => {
+        const max = Math.max(...nums.map((item) => item.kg), 100);
+        const min = Math.min(...nums.map((item) => item.kg), 90);
+        const h = Math.max(8, Math.round(((row.kg - min) / Math.max(max - min, 1)) * 100));
+        return `<div class="bar-col"><span class="bar-val">${String(row.kg).replace(".", ",")}</span><span class="bar-track"><span class="bar-fill" style="height:${h}%"></span></span><span class="bar-dow">${row.date.slice(8)}</span></div>`;
+      }).join("")}</div>` : ""}
+    </section>
+    <p class="section-title">${icon("footprints")} Шаги · 7 дней</p>
+    ${typeof renderStepsChart === "function" ? renderStepsChart(rows) : ""}
+    <section class="guide-card">
+      <h3>Неделя цикла</h3>
+      <div class="cycle">${WEEK_RULES.map((w) => `<button type="button" class="${s.cycleWeek === w.n ? "on" : ""}" data-cycle="${w.n}">${w.n}</button>`).join("")}</div>
+      <p class="notes">${WEEK_RULES[s.cycleWeek - 1].text}</p>
+    </section>
+    <section class="guide-card">
+      <h3>Подтягивания</h3>
+      <div class="levels">${PULL_LEVELS.map((lv) => `<button type="button" class="level${s.pullLevel === lv.n ? " on" : ""}" data-level="${lv.n}"><b>${escapeHtml(lv.title)}</b><small>${escapeHtml(lv.text)}</small></button>`).join("")}</div>
+    </section>`;
+}
 function renderDay(d, plan, scope) {
   const iso = isoDate(d);
   const stats = completedCount(iso, plan, scope);
@@ -453,6 +814,7 @@ function renderDay(d, plan, scope) {
       </div>
       <h2>${plan.title}</h2>
       <p>${plan.intro}</p>
+      ${healthNote(iso, "workout")}
       <div class="progress-line">
         <div class="bar"><span style="width:${stats.pct}%"></span></div>
         <b>${stats.done}/${stats.total} подходов</b>
@@ -470,24 +832,50 @@ function tagColor(tag) {
   return { gym: "var(--gym)", office: "var(--office)", tennis: "var(--tennis)", rest: "var(--rest)", home: "var(--text)" }[tag] || "var(--accent)";
 }
 
+function healthNote(iso, scope) {
+  const day = getState().days[iso];
+  if (!day) return "";
+  if (scope === "workout" && day.workoutHealth) {
+    return `<p class="health-note">${escapeHtml(healthReasonText(day.workoutHealthReason))}</p>`;
+  }
+  if (scope === "zaryadka" && day.zaryadkaHealth) {
+    return `<p class="health-note">Зарядка отмечена по сессии мобилити в Health Connect.</p>`;
+  }
+  return "";
+}
+function zaryadkaSwitch(plan) {
+  const items = [
+    { id: "auto", label: "Сегодня" },
+    { id: "a", label: "Блок A" },
+    { id: "b", label: "Блок B" },
+    { id: "short", label: "Коротко" }
+  ];
+  return `<div class="subnav">${items.map((item) => {
+    const on = (ui.zBlock || "auto") === item.id;
+    return `<button type="button" data-zblock="${item.id}" class="${on ? "on" : ""}">${item.label}</button>`;
+  }).join("")}</div>`;
+}
 function renderZaryadka(d) {
+  const plan = zaryadkaDisplayed(d);
   const iso = isoDate(d);
-  const stats = completedCount(iso, ZARYADKA, "zaryadka");
+  const stats = completedCount(iso, plan, "zaryadka");
   return `
+    ${zaryadkaSwitch(plan)}
     <section class="hero" style="--tag:var(--text)">
       <div class="place-row">
         <span class="pill home">Дом</span>
-        <span class="meta">${ZARYADKA.duration}</span>
-        <span class="meta">гантели</span>
+        <span class="meta">${plan.duration}</span>
+        <span class="meta">${plan.block === "short" ? "YouTube" : "блок " + plan.block.toUpperCase()}</span>
       </div>
-      <h2>${ZARYADKA.title}</h2>
-      <p>${ZARYADKA.intro}</p>
+      <h2>${plan.title}</h2>
+      <p>${plan.intro}</p>
+      ${healthNote(iso, "zaryadka")}
       <div class="progress-line">
         <div class="bar"><span style="width:${stats.pct}%"></span></div>
         <b>${stats.done}/${stats.total} подходов</b>
       </div>
     </section>
-    ${ZARYADKA.exercises.map((ex, i) => renderExercise(iso, "zaryadka", ex, i)).join("")}
+    ${plan.exercises.map((ex, i) => renderExercise(iso, "zaryadka", ex, i)).join("")}
     <div class="day-actions">
       <button class="btn" type="button" data-act="complete-all">Отметить всё</button>
       <button class="btn ghost" type="button" data-act="reset-day">Сбросить</button>
@@ -495,14 +883,36 @@ function renderZaryadka(d) {
   `;
 }
 
+function renderInstagramLinks(ex) {
+  const links = ex.instagram || [];
+  if (!links.length) return "";
+  return `<div class="ig-links">${links.map((url) => `<a class="ig-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Смотреть в Instagram</a>`).join("")}</div>`;
+}
 function renderExercise(iso, scope, ex, idx) {
   const s = getState();
+  if (!isExerciseUnlocked(ex, s)) {
+    return `
+      <article class="ex locked">
+        <div class="ex-top">
+          <div class="ex-num">${String(idx + 1).padStart(2, "0")}</div>
+          <div style="flex:1;min-width:0">
+            <div class="superset-flag">С 4-й недели</div>
+            <h3>${escapeHtml(ex.name)}</h3>
+            <p class="notes">${escapeHtml(ex.notes || "")} Откроется, когда в «Плане» отмечена 4-я неделя, и останется в следующем цикле.</p>
+            ${renderInstagramLinks(ex)}
+          </div>
+        </div>
+      </article>`;
+  }
   const log = exLog(iso, scope, ex.id);
   const weight = log.weight || ex.defaultWeight || s.lastWeights[ex.id] || "";
   const last = s.lastWeights[ex.id] && s.lastWeights[ex.id] !== log.weight ? `прошлое: ${s.lastWeights[ex.id]} кг` : "";
+  let openIndex = -1;
   const sets = Array.from({ length: ex.sets }, (_, i) => {
     const on = !!(log.sets && log.sets[i]);
-    return `<button type="button" class="set${on ? " on" : ""}" data-set="${i}" data-ex="${ex.id}" aria-pressed="${on}">${i + 1}</button>`;
+    if (!on && openIndex < 0) openIndex = i;
+    const mark = on ? icon("check") : String(i + 1);
+    return `<button type="button" class="set${on ? " on" : ""}${i === openIndex ? " next" : ""}" data-set="${i}" data-ex="${ex.id}" aria-pressed="${on}">${mark}</button>`;
   }).join("");
   const video = ex.video ? VIDEOS[ex.video] : null;
   return `
@@ -518,16 +928,17 @@ function renderExercise(iso, scope, ex, idx) {
           </div>
           ${ex.notes ? `<p class="notes">${escapeHtml(ex.notes)}</p>` : ""}
           ${ex.logWeight !== false ? `
-            <div class="weight-row">
-              <label>Вес</label>
-              <input inputmode="decimal" type="number" step="0.5" min="0" value="${escapeAttr(weight)}" data-weight="${ex.id}" placeholder="кг">
-              <span>кг</span>
-              ${last ? `<span class="last-w">${last}</span>` : ""}
+            <div class="stepper">
+              <button type="button" data-wstep="-1" data-ex="${ex.id}" aria-label="Меньше вес">${icon("minus")}</button>
+              <input inputmode="decimal" type="number" step="0.5" min="0" value="${escapeAttr(weight)}" data-weight="${ex.id}" aria-label="Вес, кг">
+              <button type="button" data-wstep="1" data-ex="${ex.id}" aria-label="Больше вес">${icon("plus")}</button>
+              ${last ? `<span class="last-w">${last}</span>` : `<span class="last-w">кг, шаг 2,5</span>`}
             </div>` : ""}
           <div class="sets">
             ${sets}
             ${ex.rest ? `<button type="button" class="rest-btn" data-rest="${ex.rest}" data-rest-name="${escapeAttr(ex.name)}">Отдых ${formatRest(ex.rest)}</button>` : ""}
           </div>
+          ${renderInstagramLinks(ex)}
           ${video ? renderVideo(video, ex.name) : ""}
         </div>
       </div>
@@ -569,19 +980,26 @@ function renderWeek(selected) {
     const iso = isoDate(d);
     const plan = dayPlan(d);
     const stats = completedCount(iso, plan, "workout");
-    const z = completedCount(iso, ZARYADKA, "zaryadka");
+    const info = placeMeta(plan);
+    const menuDay = globalThis.FOOD && FOOD.menu && FOOD.menu.days[menuIndexFromDate(d)];
+    const kcal = menuDay && menuDay.target_kcal ? " · " + menuDay.target_kcal + " ккал" : "";
     cards.push(`
-      <button type="button" class="week-card" data-open-date="${iso}">
-        <div class="wd"><b>${plan.short}</b><span>${d.getDate()}</span></div>
+      <button type="button" class="week-card" data-open-date="${iso}" style="--tag:${tagColor(plan.tag)}">
+        <div class="wd"><b>${d.getDate()}</b><span>${plan.short}</span></div>
         <div style="flex:1;min-width:0;text-align:left">
           <h3>${escapeHtml(plan.title)}</h3>
-          <p>${plan.place} · ${plan.duration} · зарядка ${z.done}/${z.total}</p>
+          <p class="loc">${icon("map-pin")} ${escapeHtml(info.location)}</p>
+          <p>${escapeHtml(plan.duration)}${escapeHtml(kcal)}</p>
+          <div class="mini-bar"><span style="width:${stats.pct}%"></span></div>
         </div>
-        <div class="mini-bar"><span style="width:${stats.pct}%"></span></div>
+        <b>${stats.pct ? stats.pct + "%" : ""}</b>
       </button>`);
   }
+  const state = getState();
   return `
     <p class="section-title">${ruDate(mon)} — ${ruDate(end)}</p>
+    <div class="cycle">${WEEK_RULES.map((w) => `<button type="button" class="${state.cycleWeek === w.n ? "on" : ""}" data-cycle="${w.n}">${w.n}</button>`).join("")}</div>
+    <p class="notes"><b>${WEEK_RULES[state.cycleWeek - 1].title}.</b> ${WEEK_RULES[state.cycleWeek - 1].text}</p>
     ${cards.join("")}
     <p class="notes" style="padding:4px 4px 0">Нажми день, чтобы открыть тренировку. Прогресс сохраняется на телефоне.</p>`;
 }
@@ -623,11 +1041,11 @@ function renderGuide(s) {
       <div class="guide-card">
         <h3>Неделя целиком</h3>
         <ul>
-          <li><b>Каждое утро</b> — зарядка 10–15 мин дома, гантели.</li>
+          <li><b>Каждое утро</b> — зарядка 12–15 мин. Блок A (таз и мобильность) в пн/ср/пт/вс, блок B (спина и осанка) во вт/чт/сб. Короткая версия с YouTube тоже в «Зарядке».</li>
           <li><b>Пн / Ср / Пт</b> — зал, база и прогрессия весов. Ноги в пн и пт (плюс румынская в среду).</li>
-          <li><b>Вт / Сб</b> — офис: практика подтягиваний + плечи и руки с 8 кг, много повторов.</li>
-          <li><b>Чт</b> — теннис, только подтягивания, вис и мобилити.</li>
-          <li><b>Вс</b> — ходьба 10–15 тыс. шагов, восстановление.</li>
+          <li><b>Вт / Сб</b> — офис: индусские отжимания и комплекс со стулом, затем подтягивания и руки с 8 кг. Стойка у стены открывается с 4-й недели.</li>
+          <li><b>Чт</b> — теннис, подтягивания, вис, мобилити и короткий кардио-финишер. Шаги он не заменяет.</li>
+          <li><b>Вс</b> — ходьба 10–15 тыс. шагов и тот же кардио-финишер. Меню на день — во вкладке «Питание».</li>
         </ul>
       </div>
 
@@ -651,14 +1069,15 @@ function renderNav() {
     document.body.appendChild(nav);
   }
   const items = [
-    { id: "today", label: "Сегодня", icon: "M4 6h16M4 12h16M4 18h10" },
-    { id: "zaryadka", label: "Зарядка", icon: "M12 3v4M8 5.5 12 3l4 2.5M6 21V10l6-3 6 3v11M10 21v-6h4v6" },
-    { id: "week", label: "Неделя", icon: "M7 3v3M17 3v3M4 8h16M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" },
-    { id: "guide", label: "План", icon: "M12 19V5M7 10l5-5 5 5M6 19h12" }
+    { id: "today", label: "Сегодня", icon: "flame" },
+    { id: "week", label: "Неделя", icon: "calendar-days" },
+    { id: "food", label: "Питание", icon: "utensils" },
+    { id: "progress", label: "Прогресс", icon: "chart-line" },
+    { id: "guide", label: "План", icon: "list-checks" }
   ];
   nav.innerHTML = `<div class="nav-inner">${items.map((it) => `
-    <button type="button" class="${ui.tab === it.id ? "on" : ""}" data-tab="${it.id}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${it.icon}"/></svg>
+    <button type="button" class="${ui.tab === it.id && !ui.panel ? "on" : ""}" data-tab="${it.id}">
+      ${icon(it.icon)}
       ${it.label}
     </button>`).join("")}</div>`;
   nav.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.tab)));
@@ -666,8 +1085,15 @@ function renderNav() {
 
 function currentPlanAndScope() {
   const d = parseIso(ui.date);
-  if (ui.tab === "zaryadka") return { iso: isoDate(d), plan: ZARYADKA, scope: "zaryadka" };
+  if (ui.panel === "warmup") return { iso: isoDate(d), plan: zaryadkaDisplayed(d), scope: "zaryadka" };
   return { iso: isoDate(d), plan: dayPlan(d), scope: "workout" };
+}
+function markManual(s, iso, scope, exId) {
+  if (!s.days[iso].manualIds) s.days[iso].manualIds = {};
+  if (!s.days[iso].manualIds[scope]) s.days[iso].manualIds[scope] = {};
+  s.days[iso].manualIds[scope][exId] = true;
+  if (scope === "workout") s.days[iso].workoutHealth = false;
+  else s.days[iso].zaryadkaHealth = false;
 }
 
 function bind(d, plan) {
@@ -675,6 +1101,7 @@ function bind(d, plan) {
     b.addEventListener("click", () => {
       ui.date = b.dataset.date;
       ui.tab = "today";
+      ui.panel = null;
       render();
     });
   });
@@ -682,6 +1109,7 @@ function bind(d, plan) {
     b.addEventListener("click", () => {
       ui.date = b.dataset.openDate;
       ui.tab = "today";
+      ui.panel = null;
       render();
     });
   });
@@ -698,8 +1126,10 @@ function bind(d, plan) {
         const log = s.days[iso][scope][exId];
         log.sets[i] = !log.sets[i];
         started = !!log.sets[i];
+        markManual(s, iso, scope, exId);
       });
-      const ex = (ui.tab === "zaryadka" ? ZARYADKA : plan).exercises.find((x) => x.id === exId);
+      const ex = p.exercises.find((x) => x.id === exId);
+      if (started) maybeFinishDay(iso, p, scope);
       b.classList.toggle("on", started);
       b.setAttribute("aria-pressed", started ? "true" : "false");
       refreshProgress();
@@ -711,6 +1141,9 @@ function bind(d, plan) {
       const { iso, scope } = currentPlanAndScope();
       const exId = inp.dataset.weight;
       const val = inp.value;
+      const prev = getState().lastWeights[exId] || "";
+      const prevNum = parseFloat(String(prev).replace(",", "."));
+      const nextNum = parseFloat(String(val).replace(",", "."));
       updateState((s) => {
         if (!s.days[iso]) s.days[iso] = { workout: {}, zaryadka: {} };
         if (!s.days[iso][scope]) s.days[iso][scope] = {};
@@ -718,6 +1151,12 @@ function bind(d, plan) {
         s.days[iso][scope][exId].weight = val;
         if (val) s.lastWeights[exId] = val;
       });
+      const ex = (ui.panel === "warmup" ? zaryadkaDisplayed(parseIso(ui.date)) : dayPlan(parseIso(ui.date))).exercises.find((item) => item.id === exId);
+      if (val && Number.isFinite(prevNum) && Number.isFinite(nextNum) && nextNum > prevNum && ex) {
+        ui.record = { name: ex.name, weight: val, prev: prev, note: ex.notes || "" };
+        ui.panel = "record";
+        render();
+      }
     });
   });
   document.querySelectorAll("[data-rest]").forEach((b) => {
@@ -737,9 +1176,12 @@ function bind(d, plan) {
       if (!s.days[iso]) s.days[iso] = { workout: {}, zaryadka: {} };
       if (!s.days[iso][scope]) s.days[iso][scope] = {};
       p.exercises.forEach((ex) => {
+        if (!isExerciseUnlocked(ex, s)) return;
         if (!s.days[iso][scope][ex.id]) s.days[iso][scope][ex.id] = { weight: "", sets: [] };
         s.days[iso][scope][ex.id].sets = Array(ex.sets).fill(true);
+        markManual(s, iso, scope, ex.id);
       });
+      if (scope === "workout") ui.panel = "done";
     });
     render();
   });
@@ -747,13 +1189,25 @@ function bind(d, plan) {
   if (reset) reset.addEventListener("click", () => {
     const { iso, scope } = currentPlanAndScope();
     updateState((s) => {
-      if (s.days[iso]) s.days[iso][scope] = {};
+      if (!s.days[iso]) return;
+      s.days[iso][scope] = {};
+      if (s.days[iso].manualIds) s.days[iso].manualIds[scope] = {};
+      if (scope === "workout") {
+        s.days[iso].workoutHealth = false;
+        s.days[iso].healthFilled = [];
+      } else {
+        s.days[iso].zaryadkaHealth = false;
+        s.days[iso].healthFilledZ = [];
+      }
     });
     render();
   });
   document.querySelectorAll("[data-cycle]").forEach((b) => {
     b.addEventListener("click", () => {
-      updateState((s) => { s.cycleWeek = Number(b.dataset.cycle); });
+      updateState((s) => {
+      s.cycleWeek = Number(b.dataset.cycle);
+      if (s.cycleWeek >= 4) s.handstandUnlocked = true;
+    });
       render();
     });
   });
@@ -776,6 +1230,101 @@ function bind(d, plan) {
     ui.hideInstall = true;
     render();
   });
+  document.querySelectorAll("[data-zblock]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.zBlock = b.dataset.zblock;
+      render({ scroll: "keep" });
+    });
+  });
+  document.querySelectorAll("[data-continue]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.panel = "exercise";
+      ui.exId = b.dataset.continue;
+      render({ scroll: "top" });
+    });
+  });
+  document.querySelectorAll("[data-open-warmup]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.panel = "warmup";
+      render({ scroll: "top" });
+    });
+  });
+  document.querySelectorAll("[data-show-list]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.showList = true;
+      render({ scroll: "keep" });
+    });
+  });
+  document.querySelectorAll("[data-back]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.panel = null;
+      render({ scroll: "top" });
+    });
+  });
+  document.querySelectorAll("[data-open-food]").forEach((b) => {
+    b.addEventListener("click", () => setTab("food"));
+  });
+  document.querySelectorAll("[data-log-weight]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ui.panel = null;
+      setTab("progress");
+    });
+  });
+  document.querySelectorAll("[data-share]").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const text = b.dataset.share;
+      if (navigator.share) {
+        try { await navigator.share({ text: text }); } catch (e) {}
+      } else if (navigator.clipboard) {
+        try { await navigator.clipboard.writeText(text); } catch (e) {}
+      }
+    });
+  });
+  document.querySelectorAll("[data-record-next]").forEach((b) => {
+    b.addEventListener("click", () => {
+      const d = parseIso(ui.date);
+      const plan = dayPlan(d);
+      const stats = completedCount(isoDate(d), plan, "workout");
+      ui.panel = stats.total && stats.done >= stats.total ? "done" : null;
+      ui.record = null;
+      render({ scroll: "top" });
+    });
+  });
+  document.querySelectorAll("[data-wstep]").forEach((b) => {
+    b.addEventListener("click", () => {
+      const input = document.querySelector(`[data-weight="${b.dataset.ex}"]`);
+      if (!input) return;
+      const cur = parseFloat(String(input.value).replace(",", ".")) || 0;
+      const next = Math.max(0, Math.round((cur + Number(b.dataset.wstep) * 2.5) * 10) / 10);
+      const snapped = Math.round(next * 2) / 2;
+      input.value = snapped ? String(snapped) : "";
+      input.dispatchEvent(new Event("change"));
+    });
+  });
+  const weightForm = document.getElementById("weight-form");
+  if (weightForm) {
+    weightForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.getElementById("weight-input");
+      const value = input ? String(input.value).trim().replace(",", ".") : "";
+      if (!value || !Number.isFinite(Number(value))) return;
+      updateState((s) => {
+        if (!s.bodyWeight) s.bodyWeight = {};
+        s.bodyWeight[todayDate()] = value;
+      });
+      render({ scroll: "keep" });
+    });
+  }
+  const stepsForm = document.getElementById("steps-form");
+  if (stepsForm && stepsForm.dataset.stepsFor) {
+    stepsForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.getElementById("steps-input");
+      if (typeof saveManualSteps === "function") saveManualSteps(stepsForm.dataset.stepsFor, input ? input.value : "");
+    });
+  }
+  if (typeof bindFood === "function") bindFood();
+  if (typeof bindActivity === "function") bindActivity();
 }
 
 function escapeHtml(s) {
@@ -792,10 +1341,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
   render();
 });
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
-  });
-}
-
-render();
+window.addEventListener("load", () => {
+  if (typeof isNativeApp === "function" && isNativeApp()) return;
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
+});

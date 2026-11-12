@@ -1,15 +1,48 @@
-const CACHE = "boets-v1";
+const CACHE = "boets-v4";
 const PRECACHE = [
   "./",
   "./index.html",
   "./styles.css",
+  "./tokens.css",
+  "./fonts.css",
   "./app.js",
+  "./activity.js",
+  "./food.js",
+  "./icons.js",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
+  "./icon-maskable-192.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
-  "./favicon.png"
+  "./favicon.png",
+  "./brand/logo-horizontal-tight.svg",
+  "./brand/logo-compact.svg",
+  "./brand/logo-compact-tight.svg",
+  "./img/arseniy-mma.webp",
+  "./img/arseniy-mma-cap.webp",
+  "./img/emo-rage.webp",
+  "./img/emo-focus.webp",
+  "./img/emo-smile.webp",
+  "./img/emo-tired.webp",
+  "./img/emo-victory.webp",
+  "./data/recipes.json",
+  "./data/menu-week.json",
+  "./data/shopping-week.json",
+  "./fonts/fira-sans-extra-condensed-600-cyr.woff2",
+  "./fonts/fira-sans-extra-condensed-600-lat.woff2",
+  "./fonts/fira-sans-extra-condensed-700-cyr.woff2",
+  "./fonts/fira-sans-extra-condensed-700-lat.woff2",
+  "./fonts/fira-sans-extra-condensed-800-cyr.woff2",
+  "./fonts/fira-sans-extra-condensed-800-lat.woff2",
+  "./fonts/golos-text-400-cyr.woff2",
+  "./fonts/golos-text-400-lat.woff2",
+  "./fonts/golos-text-500-cyr.woff2",
+  "./fonts/golos-text-500-lat.woff2",
+  "./fonts/golos-text-600-cyr.woff2",
+  "./fonts/golos-text-600-lat.woff2",
+  "./fonts/golos-text-700-cyr.woff2",
+  "./fonts/golos-text-700-lat.woff2"
 ];
 
 self.addEventListener("install", (event) => {
@@ -46,6 +79,20 @@ self.addEventListener("fetch", (event) => {
         })
       );
     }
+    return;
+  }
+  if (url.pathname.endsWith(".json")) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then((cache) => cache.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
     return;
   }
   event.respondWith(

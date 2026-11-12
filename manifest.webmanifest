@@ -1,14 +1,14 @@
 {
   "id": "./",
-  "name": "Боец — тренировки",
-  "short_name": "Боец",
-  "description": "Персональная программа: плечи, спина, руки. Зал, офис и утренняя зарядка.",
+  "name": "АРСДРОЙД — ЯРОСТЬ",
+  "short_name": "АРСДРОЙД",
+  "description": "Тренировки, шаги и меню: плечи, спина, руки. Зал, офис и утренняя зарядка.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b0c0f",
-  "theme_color": "#0b0c0f",
+  "background_color": "#0B0C0E",
+  "theme_color": "#0B0C0E",
   "lang": "ru",
   "dir": "ltr",
   "categories": ["health", "fitness", "lifestyle"],
@@ -24,6 +24,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icon-maskable-512.png",
