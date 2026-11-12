@@ -1,4 +1,4 @@
-const CACHE = "boets-v5";
+const CACHE = "boets-v8";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -65,6 +65,46 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+async function cachedExerciseAsset(req) {
+  const cache = await caches.open(CACHE);
+  let stored = await cache.match(req.url);
+  if (!stored) {
+    const res = await fetch(req.url);
+    if (!res || !res.ok) return res;
+    await cache.put(req.url, res.clone());
+    stored = await cache.match(req.url);
+  }
+  const type = stored.headers.get("Content-Type") || (req.url.endsWith(".mp4") ? "video/mp4" : "image/webp");
+  const buf = await stored.arrayBuffer();
+  const range = req.headers.get("Range");
+  if (!range) {
+    return new Response(buf, {
+      status: 200,
+      headers: {
+        "Content-Type": type,
+        "Content-Length": String(buf.byteLength),
+        "Accept-Ranges": "bytes"
+      }
+    });
+  }
+  const match = /bytes=(\d+)-(\d*)/.exec(range);
+  if (!match || Number(match[1]) >= buf.byteLength) {
+    return new Response(null, { status: 416, headers: { "Content-Range": "bytes */" + buf.byteLength } });
+  }
+  const start = Number(match[1]);
+  const end = match[2] ? Math.min(Number(match[2]), buf.byteLength - 1) : buf.byteLength - 1;
+  const slice = buf.slice(start, end + 1);
+  return new Response(slice, {
+    status: 206,
+    headers: {
+      "Content-Type": type,
+      "Content-Range": "bytes " + start + "-" + end + "/" + buf.byteLength,
+      "Content-Length": String(slice.byteLength),
+      "Accept-Ranges": "bytes"
+    }
+  });
+}
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
@@ -85,6 +125,10 @@ self.addEventListener("fetch", (event) => {
         })
       );
     }
+    return;
+  }
+  if (url.pathname.includes("/img/ex/")) {
+    event.respondWith(cachedExerciseAsset(req));
     return;
   }
   if (url.pathname.endsWith(".json")) {
