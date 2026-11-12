@@ -1,0 +1,74 @@
+name: Android APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: false
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync web app into Android
+        run: npm run sync:android
+
+      - name: Build signed APK
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon --max-workers=2 -PVERSION_CODE=${{ github.run_number }} -PVERSION_NAME=1.0.${{ github.run_number }}
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/release/app-release.apk boets.apk
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: АРСДРОЙД ${{ github.run_number }}
+          make_latest: true
+          files: boets.apk
+          body: |
+            Android-сборка «АРСДРОЙД — ЯРОСТЬ»: тренировки, меню и чтение шагов и тренировок из Health Connect.
+
+            Скачать: https://github.com/2253595-sys/Training-app/releases/latest/download/boets.apk
+
+            Установка:
+            1. Разрешите установку из неизвестных источников.
+            2. Откройте APK и установите приложение.
+            3. На экране «Сегодня» разрешите Health Connect читать шаги и тренировки.
+            4. Если Health Connect не установлен, приложение откроет Google Play.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

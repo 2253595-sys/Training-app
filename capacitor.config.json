@@ -1,0 +1,11 @@
+{
+  "appId": "app.boets.training",
+  "appName": "АРСДРОЙД",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#0b0c0f"
+  }
+}
