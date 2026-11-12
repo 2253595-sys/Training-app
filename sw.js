@@ -1,4 +1,4 @@
-const CACHE = "boets-v3";
+const CACHE = "boets-v4";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -18,6 +18,14 @@ const PRECACHE = [
   "./favicon.png",
   "./brand/logo-horizontal-tight.svg",
   "./brand/logo-compact.svg",
+  "./brand/logo-compact-tight.svg",
+  "./img/arseniy-mma.webp",
+  "./img/arseniy-mma-cap.webp",
+  "./img/emo-rage.webp",
+  "./img/emo-focus.webp",
+  "./img/emo-smile.webp",
+  "./img/emo-tired.webp",
+  "./img/emo-victory.webp",
   "./data/recipes.json",
   "./data/menu-week.json",
   "./data/shopping-week.json",

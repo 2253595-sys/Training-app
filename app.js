@@ -1,4 +1,7 @@
 const STORAGE_KEY = "boets-v1";
+/* Portrait on the splash and the Progress screen. Swap to "img/arseniy-mma-cap.webp" for the cap. */
+const HERO_IMAGE = "img/arseniy-mma.webp";
+document.documentElement.style.setProperty("--hero-image", 'url("' + HERO_IMAGE + '")');
 
 const VIDEOS = {
   zaryadkaFollow: { id: "umuRFbcJa8A", title: "Суставная гимнастика, 10 минут — Татьяна Метельская" },
@@ -426,7 +429,8 @@ function renderTimer() {
   const dash = (circ * pct).toFixed(1);
   const urgent = timer.running && left <= 5 && left > 0;
   root.innerHTML = `
-    <div class="ring-timer${timer.done ? " done" : ""}${urgent ? " urgent" : ""}">
+    <div class="ring-timer emo${timer.done ? " done" : ""}${urgent ? " urgent" : ""}">
+      <div class="emo-bg" aria-hidden="true"></div>
       <div class="ring-wrap">
         <svg viewBox="0 0 200 200" aria-hidden="true">
           <circle class="ring-bg" cx="100" cy="100" r="${radius}"></circle>
@@ -502,8 +506,9 @@ function render(opts) {
   const d = parseIso(ui.date);
   const plan = dayPlan(d);
   const s = getState();
+  const immersive = ui.panel === "done" || ui.panel === "record" || (!ui.panel && ui.tab === "progress");
   app.innerHTML = `
-    ${renderHeader(d, s)}
+    ${immersive ? "" : renderHeader(d, s)}
     ${ui.panel === "warmup" ? renderZaryadka(d) : ""}
     ${ui.panel === "exercise" ? renderExerciseFocus(d, plan) : ""}
     ${ui.panel === "done" ? renderDone(d, plan) : ""}
@@ -528,13 +533,16 @@ function screenTitle() {
 }
 function renderHeader(d, s) {
   const rule = WEEK_RULES[s.cycleWeek - 1];
-  const shown = ui.tab === "food" || ui.tab === "progress" ? parseIso(todayDate()) : d;
+  const shown = ui.tab === "food" ? parseIso(todayDate()) : d;
+  const food = ui.tab === "food";
+  const foodDay = food && globalThis.FOOD ? FOOD.menu.days[menuIndexFromDate(shown)] : null;
   return `
-    <header class="top">
+    <header class="top${food ? " food-hero" : ""}">
+      ${food ? `<div class="emo-img" aria-hidden="true"></div>` : ""}
       <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ" height="20">
-      <div class="today-date">${shown.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" })} · цикл ${s.cycleWeek}/4</div>
       <h1 class="h1">${screenTitle()}</h1>
-      <div class="kicker">${rule ? rule.title : ""}</div>
+      <div class="kicker">${shown.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" })}${foodDay ? " · " + escapeHtml(foodDay.type) : ""} · цикл ${s.cycleWeek}/4</div>
+      <div class="sub">${food ? "Белок 160–180 г каждый день" : (rule ? rule.title : "")}</div>
     </header>`;
 }
 
@@ -632,7 +640,8 @@ function renderTodayHome(d, plan) {
   return `
     ${renderInstall()}
     ${renderWeekStrip(d)}
-    <section class="hero" style="--tag:${tagColor(plan.tag)}">
+    <section class="hero emo" style="--tag:${tagColor(plan.tag)}">
+      <div class="emo-img" aria-hidden="true"></div>
       <div class="place-row">
         <span class="pill ${info.pill}">${escapeHtml(info.type)}</span>
         ${info.location ? `<span class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(info.location)}</span>` : ""}
@@ -693,27 +702,43 @@ function renderDone(d, plan) {
   const stats = completedCount(iso, plan, "workout");
   const info = placeMeta(plan);
   return `
-    <p class="kicker">${escapeHtml(plan.title)} · ${escapeHtml(info.location)}</p>
-    <h2 class="h2">Тренировка завершена</h2>
-    <p>Отдыхай. Белок 160–180 г за день.</p>
-    <div class="wstat">
-      <div><b>${stats.done}/${stats.total}</b><span>подходов</span></div>
-      <div><b>${escapeHtml(plan.duration)}</b><span>по плану</span></div>
-    </div>
-    <button class="btn primary" type="button" data-log-weight>${icon("scale")} Записать вес</button>
-    <button class="linkish" type="button" data-back>На главную</button>`;
+    <section class="scene done">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <div class="es-img" aria-hidden="true"></div>
+      <div class="es-shade" aria-hidden="true"></div>
+      <div class="es-bottom">
+        <p class="kicker">${escapeHtml(plan.title)} · ${escapeHtml(info.location)}</p>
+        <h2 class="h2">Тренировка завершена</h2>
+        <p>Отдыхай. Белок 160–180 г за день.</p>
+        <div class="wstat">
+          <div><b>${stats.done}/${stats.total}</b><span>подходов</span></div>
+          <div><b>${escapeHtml(plan.duration)}</b><span>по плану</span></div>
+        </div>
+        <button class="btn primary" type="button" data-log-weight>${icon("scale")} Записать вес</button>
+        <button class="linkish" type="button" data-back>На главную</button>
+      </div>
+    </section>`;
 }
 function renderRecord() {
   const rec = ui.record || {};
+  const shareText = rec.name ? rec.name + ": " + rec.weight + " кг, было " + rec.prev + " кг" : "";
   return `
-    <p class="kicker">Новый рекорд</p>
-    <h2 class="h2">${escapeHtml(rec.name || "")}</h2>
-    <p>${escapeHtml(rec.note || "Рабочий вес выше прошлой отметки.")}</p>
-    <div class="wstat">
-      <div><b>${escapeHtml(rec.weight || "")}</b><span>кг</span></div>
-      <div><b>${escapeHtml(rec.prev || "")}</b><span>было, кг</span></div>
-    </div>
-    <button class="btn primary" type="button" data-record-next>Дальше</button>`;
+    <section class="scene record">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <div class="es-img" aria-hidden="true"></div>
+      <div class="es-shade" aria-hidden="true"></div>
+      <div class="es-bottom">
+        <p class="kicker">Новый рекорд</p>
+        <h2 class="h2">${escapeHtml(rec.name || "")}</h2>
+        <p>${escapeHtml(rec.note || "Рабочий вес выше прошлой отметки.")}</p>
+        <div class="wstat">
+          <div><b>${escapeHtml(rec.weight || "")}</b><span>кг</span></div>
+          <div><b>${escapeHtml(rec.prev || "")}</b><span>было, кг</span></div>
+        </div>
+        <button class="btn primary" type="button" data-record-next>Дальше</button>
+        ${shareText ? `<button class="linkish" type="button" data-share="${escapeAttr(shareText)}">Поделиться</button>` : ""}
+      </div>
+    </section>`;
 }
 function maybeFinishDay(iso, plan, scope) {
   if (scope !== "workout") return;
@@ -740,10 +765,15 @@ function renderProgress(d, s) {
   const delta = last != null ? Math.round((last - 100) * 10) / 10 : null;
   const rows = typeof chartRows === "function" ? chartRows() : [];
   return `
-    <section class="hero" style="--tag:var(--c-accent)">
-      <div class="kicker">Цель</div>
-      <div class="kcal-hero">90<small>кг</small></div>
-      <p>Широкие плечи, руки, торс. Старт программы — 100 кг.</p>
+    <section class="goal-hero">
+      <img class="hero-photo" src="${HERO_IMAGE}" alt="">
+      <img class="brand-logo" src="brand/logo-horizontal-tight.svg" alt="АРСДРОЙД — ЯРОСТЬ">
+      <h1 class="h1">Прогресс</h1>
+      <div class="gh-text">
+        <div class="kicker">Цель</div>
+        <div class="gh-goal">90<small>кг</small></div>
+        <p>Широкие плечи, руки, торс. Старт программы — 100 кг.</p>
+      </div>
     </section>
     <section class="card">
       <div class="card-title">${icon("scale")} Вес</div>
@@ -1238,6 +1268,16 @@ function bind(d, plan) {
     b.addEventListener("click", () => {
       ui.panel = null;
       setTab("progress");
+    });
+  });
+  document.querySelectorAll("[data-share]").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const text = b.dataset.share;
+      if (navigator.share) {
+        try { await navigator.share({ text: text }); } catch (e) {}
+      } else if (navigator.clipboard) {
+        try { await navigator.clipboard.writeText(text); } catch (e) {}
+      }
     });
   });
   document.querySelectorAll("[data-record-next]").forEach((b) => {

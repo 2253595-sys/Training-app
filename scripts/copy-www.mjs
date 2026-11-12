@@ -29,4 +29,6 @@ cpSync("data/menu-week.json", "www/data/menu-week.json");
 cpSync("data/shopping-week.json", "www/data/shopping-week.json");
 cpSync("brand/logo-horizontal-tight.svg", "www/brand/logo-horizontal-tight.svg");
 cpSync("brand/logo-compact.svg", "www/brand/logo-compact.svg");
+cpSync("brand/logo-compact-tight.svg", "www/brand/logo-compact-tight.svg");
+cpSync("img", "www/img", { recursive: true });
 cpSync("fonts", "www/fonts", { recursive: true });

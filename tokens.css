@@ -62,12 +62,12 @@
   --logo-h-appbar: 20px;
 
   /* ---------- Эмоции (фото героя по состояниям) ---------- */
-  --emo-start:   none;      /* старт тренировки, «Сегодня» */
-  --emo-focus:   none;     /* таймер отдыха */
-  --emo-done:    none;     /* тренировка завершена */
-  --emo-victory: none;   /* рекорд, цель */
-  --emo-smile:   none;     /* питание, приветствие */
-  --emo-goal:    none;   /* цель 90 кг, сплэш */
+  --emo-start:   url("img/emo-rage.webp");
+  --emo-focus:   url("img/emo-focus.webp");
+  --emo-done:    url("img/emo-tired.webp");
+  --emo-victory: url("img/emo-victory.webp");
+  --emo-smile:   url("img/emo-smile.webp");
+  --hero-image:  url("img/arseniy-mma.webp");
   --emo-shade:   linear-gradient(180deg, rgba(11,12,14,.55) 0, transparent 18%, transparent 45%, rgba(11,12,14,.85) 70%, #0B0C0E 85%);
 
   /* ---------- Типографика ---------- */
