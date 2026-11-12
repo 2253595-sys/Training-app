@@ -39,6 +39,10 @@ jobs:
           cp data/recipes.json data/menu-week.json data/shopping-week.json _site/data/
           cp brand/logo-horizontal-tight.svg brand/logo-compact.svg brand/logo-compact-tight.svg _site/brand/
           cp img/*.webp _site/img/
+          if [ -d img/days ]; then
+            mkdir -p _site/img/days
+            cp img/days/*.webp _site/img/days/
+          fi
           cp fonts/*.woff2 _site/fonts/
 
       - name: Upload Pages artifact
