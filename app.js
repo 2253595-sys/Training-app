@@ -482,11 +482,8 @@ const ui = {
 function setTab(tab) {
   ui.tab = tab;
   ui.panel = null;
-  if ((tab === "today" || tab === "progress") && typeof refreshActivity === "function") {
-    refreshActivity();
-    return;
-  }
   render({ scroll: "top" });
+  if ((tab === "today" || tab === "progress") && typeof refreshActivity === "function") refreshActivity();
 }
 
 function refreshProgress() {
