@@ -892,8 +892,83 @@ function renderZaryadka(d) {
   `;
 }
 
+const EX_ANIM = {
+  "z-butterfly": "z-butterfly.mp4",
+  "z-bridge-kegel": "z-bridge-kegel.mp4",
+  "z-legs-apart": "z-legs-apart.mp4",
+  "z-butterfly-bridge": "z-butterfly-bridge.mp4",
+  "z-malasana": "z-malasana.mp4",
+  "z-child": "z-child.mp4",
+  "z-rev-plank": "z-rev-plank.mp4",
+  "z-wide-fold": "z-wide-fold.mp4",
+  "z-9090": "z-9090.mp4",
+  "z-thoracic": "z-thoracic.mp4",
+  "z-needle": "z-needle.mp4",
+  "hindu-push": "hindu-push.mp4",
+  "chair-flow": "chair-flow.mp4",
+  "handstand-wall": "handstand-wall.mp4",
+  "cardio-finisher": "cardio-finisher.mp4",
+  "z-cat": "cat-stretch.webp",
+  "z-squat": "bw-squat.webp",
+  "z-push": "pushup.webp",
+  "z-plank": "plank.webp",
+  "z-lat": "side-lateral.webp",
+  "z-stretch": "chest-stretch.webp",
+  "bench": "bench.webp",
+  "inc-db": "incline-db.webp",
+  "ohp": "ohp.webp",
+  "lat-raise": "side-lateral.webp",
+  "pressdown": "tricep-pushdown.webp",
+  "squat": "barbell-squat.webp",
+  "leg-ext": "leg-ext.webp",
+  "band-pullup": "band-pullup.webp",
+  "neg-pullup": "pullup.webp",
+  "lat-8-tue": "side-lateral.webp",
+  "front-raise": "front-raise.webp",
+  "db-curl-tue": "db-curl.webp",
+  "db-bench-tue": "db-bench.webp",
+  "french-tue": "french.webp",
+  "pulldown": "pulldown.webp",
+  "bar-row": "bar-row.webp",
+  "cable-row": "cable-row.webp",
+  "face-pull": "face-pull.webp",
+  "rear-delt": "rear-delt.webp",
+  "bar-curl": "bar-curl.webp",
+  "hammer": "hammer.webp",
+  "rdl": "rdl.webp",
+  "band-thu": "band-pullup.webp",
+  "scap-thu": "scap-pull.webp",
+  "db-ohp": "db-ohp.webp",
+  "lat-fri": "side-lateral.webp",
+  "rear-fri": "rear-delt.webp",
+  "chest-mach": "chest-machine.webp",
+  "leg-press": "leg-press.webp",
+  "leg-curl": "leg-curl.webp",
+  "calf": "calf.webp",
+  "ss-curl": "bar-curl.webp",
+  "ss-tri": "tricep-pushdown.webp",
+  "band-sat": "band-pullup.webp",
+  "scap-sat": "scap-pull.webp",
+  "lat-8-sat": "side-lateral.webp",
+  "db-row-sat": "db-row.webp",
+  "curl-sat": "db-curl.webp",
+  "dip-sat": "bench-dip.webp",
+  "db-bench-sat": "db-bench.webp"
+};
+
+function renderAnim(ex) {
+  const file = EX_ANIM[ex.id];
+  if (!file) return `<div class="ex-anim ph" aria-hidden="true"><span>Нет демо</span></div>`;
+  const src = "img/ex/" + file;
+  if (file.endsWith(".mp4")) {
+    const poster = src.replace(/\.mp4$/, ".jpg");
+    return `<video class="ex-anim" autoplay muted loop playsinline preload="metadata" poster="${escapeAttr(poster)}" data-src="${escapeAttr(src)}" data-ex-anim></video>`;
+  }
+  return `<img class="ex-anim still" alt="" data-src="${escapeAttr(src)}" data-ex-anim>`;
+}
+
 function renderInstagramLinks(ex) {
-  const links = ex.instagram || [];
+  const links = [...new Set(ex.instagram || [])];
   if (!links.length) return "";
   return `<div class="ig-links">${links.map((url) => `<a class="ig-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Смотреть в Instagram</a>`).join("")}</div>`;
 }
@@ -907,6 +982,7 @@ function renderExercise(iso, scope, ex, idx) {
           <div style="flex:1;min-width:0">
             <div class="superset-flag">С 4-й недели</div>
             <h3>${escapeHtml(ex.name)}</h3>
+            ${renderAnim(ex)}
             <p class="notes">${escapeHtml(ex.notes || "")} Откроется, когда в «Плане» отмечена 4-я неделя, и останется в следующем цикле.</p>
             ${renderInstagramLinks(ex)}
           </div>
@@ -935,6 +1011,7 @@ function renderExercise(iso, scope, ex, idx) {
             <span class="chip">${ex.sets} × ${escapeHtml(ex.reps)}</span>
             ${ex.rest ? `<span class="chip rest">отдых ${formatRest(ex.rest)}</span>` : ""}
           </div>
+          ${renderAnim(ex)}
           ${ex.notes ? `<p class="notes">${escapeHtml(ex.notes)}</p>` : ""}
           ${ex.logWeight !== false ? `
             <div class="stepper">
@@ -1334,6 +1411,39 @@ function bind(d, plan) {
   }
   if (typeof bindFood === "function") bindFood();
   if (typeof bindActivity === "function") bindActivity();
+  bindAnims();
+}
+
+let animObserver = null;
+function bindAnims() {
+  if (animObserver) animObserver.disconnect();
+  const nodes = document.querySelectorAll("[data-ex-anim]");
+  if (!nodes.length || typeof IntersectionObserver !== "function") {
+    nodes.forEach(startAnim);
+    return;
+  }
+  animObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const el = entry.target;
+      if (entry.isIntersecting) startAnim(el);
+      else if (el.tagName === "VIDEO") el.pause();
+    });
+  }, { rootMargin: "120px 0px", threshold: 0.25 });
+  nodes.forEach((node) => animObserver.observe(node));
+}
+function startAnim(el) {
+  const src = el.dataset.src;
+  if (!src) return;
+  if (el.tagName === "VIDEO") {
+    if (!el.getAttribute("src")) {
+      el.preload = "metadata";
+      el.src = src;
+    }
+    const play = el.play();
+    if (play && play.catch) play.catch(() => {});
+    return;
+  }
+  if (!el.getAttribute("src")) el.src = src;
 }
 
 function escapeHtml(s) {

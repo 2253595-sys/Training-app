@@ -32,7 +32,7 @@ jobs:
 
       - name: Stage site
         run: |
-          mkdir -p _site/data _site/brand _site/fonts _site/img
+          mkdir -p _site/data _site/brand _site/fonts _site/img/days _site/img/ex
           cp index.html app.js activity.js food.js icons.js styles.css tokens.css fonts.css sw.js manifest.webmanifest .nojekyll \
             favicon.png apple-touch-icon.png icon-192.png icon-512.png icon-maskable-192.png icon-maskable-512.png \
             _site/
@@ -40,9 +40,9 @@ jobs:
           cp brand/logo-horizontal-tight.svg brand/logo-compact.svg brand/logo-compact-tight.svg _site/brand/
           cp img/*.webp _site/img/
           if [ -d img/days ]; then
-            mkdir -p _site/img/days
             cp img/days/*.webp _site/img/days/
           fi
+          cp img/ex/* _site/img/ex/
           cp fonts/*.woff2 _site/fonts/
 
       - name: Upload Pages artifact
