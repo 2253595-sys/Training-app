@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v6/);
+  assert.match(sw, /boets-v7/);
   assert.equal(sw.includes("./img/ex/"), false);
   assert.match(sw, /img\/ex\//);
   const { existsSync } = require("node:fs");
@@ -124,7 +124,7 @@ test("weekly json stays wired together", () => {
     if (match[2].endsWith(".mp4")) assert.equal(existsSync("img/ex/" + match[2].replace(/\.mp4$/, ".jpg")), true, match[2]);
   }
   const missing = [...exIds].filter((id) => !mapped.has(id)).sort();
-  assert.deepEqual(missing, ["hang-thu", "mob-thu", "tm-sat", "tm-thu", "tm-tue", "walk", "z-follow"]);
+  assert.deepEqual(missing, ["mob-thu", "z-follow"]);
   for (const file of [
     "img/days/day-tennis.webp",
     "img/days/day-press-shoulders.webp",
