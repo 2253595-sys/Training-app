@@ -1,4 +1,4 @@
-const CACHE = "boets-v4";
+const CACHE = "boets-v5";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -26,6 +26,12 @@ const PRECACHE = [
   "./img/emo-smile.webp",
   "./img/emo-tired.webp",
   "./img/emo-victory.webp",
+  "./img/days/day-tennis.webp",
+  "./img/days/day-press-shoulders.webp",
+  "./img/days/day-shoulders-legs.webp",
+  "./img/days/day-pullups.webp",
+  "./img/days/day-home-mobility.webp",
+  "./img/days/day-sunday-rest-prep.webp",
   "./data/recipes.json",
   "./data/menu-week.json",
   "./data/shopping-week.json",

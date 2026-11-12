@@ -114,6 +114,7 @@ const CARDIO_FINISHER = {
 const DAYS = [
   {
     key: 1, short: "Пн", name: "Понедельник",
+    hero: "img/days/day-press-shoulders.webp",
     title: "Жим и плечи",
     place: "Зал", tag: "gym", duration: "65–75 мин",
     focus: "Грудь · плечи · трицепс · квадрицепс",
@@ -130,6 +131,7 @@ const DAYS = [
   },
   {
     key: 2, short: "Вт", name: "Вторник",
+    hero: "img/days/day-pullups.webp",
     title: "Подтягивания и руки",
     place: "Офис", tag: "office", duration: "35–45 мин",
     focus: "Турник · плечи · руки · 8 кг",
@@ -148,6 +150,7 @@ const DAYS = [
   },
   {
     key: 3, short: "Ср", name: "Среда",
+    hero: "img/days/day-home-mobility.webp",
     title: "Ширина спины",
     place: "Зал", tag: "gym", duration: "65–75 мин",
     focus: "Спина · задние дельты · бицепс · бицепс бедра",
@@ -165,6 +168,7 @@ const DAYS = [
   },
   {
     key: 4, short: "Чт", name: "Четверг",
+    hero: "img/days/day-tennis.webp",
     title: "Лёгкий день · теннис",
     place: "Офис", tag: "tennis", duration: "20–25 мин",
     focus: "Подтягивания и мобилити",
@@ -180,6 +184,7 @@ const DAYS = [
   },
   {
     key: 5, short: "Пт", name: "Пятница",
+    hero: "img/days/day-shoulders-legs.webp",
     title: "Плечи и ноги",
     place: "Зал", tag: "gym", duration: "70–80 мин",
     focus: "Средние дельты · ноги · руки · грудь",
@@ -198,6 +203,7 @@ const DAYS = [
   },
   {
     key: 6, short: "Сб", name: "Суббота",
+    hero: "img/days/day-pullups.webp",
     title: "Подтягивания и плечи",
     place: "Офис", tag: "office", duration: "35–45 мин",
     focus: "Турник · плечи · руки · 8 кг",
@@ -216,6 +222,7 @@ const DAYS = [
   },
   {
     key: 0, short: "Вс", name: "Воскресенье",
+    hero: "img/days/day-sunday-rest-prep.webp",
     title: "Отдых",
     place: "Дом", tag: "rest", duration: "прогулка",
     focus: "Восстановление",
@@ -630,7 +637,7 @@ function renderTodayHome(d, plan) {
   const steps = stepsOn(iso);
   const goal = typeof goalStatus === "function" ? goalStatus(steps, d) : { steps: steps, state: "below", goalLow: 10000, goalHigh: 10000, sunday: false };
   const manual = !(typeof isNativeApp === "function" && isNativeApp() && ui.activity && ui.activity.days && ui.activity.days.length);
-  const foodCard = renderFoodTeaser();
+  const foodCard = renderFoodTeaser(d);
   const list = ui.showList ? `
     ${plan.exercises.map((ex, i) => renderExercise(iso, "workout", ex, i)).join("")}
     <div class="day-actions">
@@ -641,7 +648,7 @@ function renderTodayHome(d, plan) {
     ${renderInstall()}
     ${renderWeekStrip(d)}
     <section class="hero emo" style="--tag:${tagColor(plan.tag)}">
-      <div class="emo-img" aria-hidden="true"></div>
+      <img class="day-hero" src="${plan.hero || HERO_IMAGE}" alt="" onerror="if(this.dataset.fb)return;this.dataset.fb='1';this.src='${HERO_IMAGE}'">
       <div class="place-row">
         <span class="pill ${info.pill}">${escapeHtml(info.type)}</span>
         ${info.location ? `<span class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(info.location)}</span>` : ""}
@@ -682,18 +689,20 @@ function renderTodayHome(d, plan) {
     ${foodCard}
     ${list}`;
 }
-function renderFoodTeaser() {
+function renderFoodTeaser(date) {
   if (!globalThis.FOOD || !FOOD.menu) return "";
-  const day = FOOD.menu.days[menuIndexFromDate(parseIso(todayDate()))];
+  const shown = date || parseIso(todayDate());
+  const day = FOOD.menu.days[menuIndexFromDate(shown)];
   if (!day) return "";
   const kcalRange = typeof parseRange === "function" ? parseRange(day.target_kcal) : null;
-  const proteinRange = typeof parseRange === "function" ? parseRange(FOOD.menu.targets.protein_g) : null;
-  const fatRange = typeof parseRange === "function" ? parseRange(FOOD.menu.targets.fat_g) : null;
   const remainder = typeof carbRemainder === "function" ? carbRemainder(kcalRange, day.totals.protein, day.totals.fat) : null;
+  const isToday = isoDate(shown) === todayDate();
+  const title = isToday ? "Питание сегодня" : "Питание · " + shown.toLocaleDateString("ru-RU", { weekday: "short" });
   return `
     <button type="button" class="card" data-open-food style="width:100%;text-align:left;color:inherit">
-      <div class="card-title">${icon("utensils")} Питание сегодня</div>
-      <div class="kcal-hero">${formatMacro(day.totals.kcal)}<small>/ ${escapeHtml(day.target_kcal)}</small></div>
+      <div class="card-title">${icon("utensils")} ${escapeHtml(title)}</div>
+      <div class="kcal-hero">${formatMacro(day.totals.kcal)}<small>ккал</small></div>
+      <p class="food-target">цель ${escapeHtml(day.target_kcal)}</p>
       <p class="kbju"><span class="p">Б ${formatMacro(day.totals.protein)}</span> <span class="f">Ж ${formatMacro(day.totals.fat)}</span> <span class="c">У ${formatMacro(day.totals.carbs)}</span>${remainder != null ? ` · остаток ${formatMacro(remainder)} г` : ""}</p>
     </button>`;
 }

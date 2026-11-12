@@ -87,14 +87,14 @@ h1, h2, h3, .steps-num, .ring-time, .dow .n, .progress-line b, .macro b {
 #splash .sp-load { height: 4px; border-radius: 2px; background: var(--c-surface-3); margin-top: 18px; overflow: hidden; }
 #splash .sp-load i { display: block; width: 62%; height: 100%; background: var(--c-accent); }
 
-.hero.emo .emo-img {
+.hero.emo .day-hero {
   position: absolute;
   top: 0; right: 0;
   width: 58%;
   height: 230px;
-  background-image: var(--emo-start);
-  background-size: cover;
-  background-position: 50% 12%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 25%;
   opacity: 0.9;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 45%), linear-gradient(180deg, #000 55%, transparent 100%);
   -webkit-mask-composite: source-in;
@@ -102,7 +102,7 @@ h1, h2, h3, .steps-num, .ring-time, .dow .n, .progress-line b, .macro b {
   mask-composite: intersect;
   pointer-events: none;
 }
-.hero.emo > *:not(.emo-img) { position: relative; z-index: 1; }
+.hero.emo > *:not(.day-hero) { position: relative; z-index: 1; }
 .hero.emo h2 { text-shadow: 0 2px 12px rgba(0,0,0,.8); max-width: 70%; }
 .hero.emo .focus, .hero.emo > p { max-width: 62%; }
 
@@ -608,8 +608,9 @@ h1, h2, h3, .steps-num, .ring-time, .dow .n, .progress-line b, .macro b {
 .macro .lbl { font: 700 12px/1 var(--font-text); color: var(--m, var(--c-text-2)); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
 .macro .lbl::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--m, var(--c-text-3)); }
 .macro .goal, .macro small { font: 600 11px/1.3 var(--font-text); color: var(--c-text-3); }
-.kcal-hero { font: var(--t-hero-num); letter-spacing: -0.03em; }
-.kcal-hero small { font: 600 14px/1 var(--font-text); color: var(--c-text-3); margin-left: 6px; }
+.kcal-hero { font: var(--t-hero-num); letter-spacing: -0.03em; display: flex; align-items: baseline; gap: 8px; }
+.kcal-hero small { font: 600 14px/1 var(--font-text); color: var(--c-text-3); margin-left: 0; }
+.food-target { margin: 0 0 6px; font: 600 15px/1.3 var(--font-text); color: var(--c-text-2); }
 .status-pill {
   display: inline-flex;
   align-items: center;

@@ -74,7 +74,12 @@ test("weekly json stays wired together", () => {
     assert.ok(recipe.steps.length > 0);
     assert.ok(recipe.ingredients.length > 0);
   });
+  const gymDays = new Set(["понедельник", "среда", "пятница"]);
   menu.days.forEach((day) => {
+    const expected = gymDays.has(day.day) ? "2000–2200" : "1800–2000";
+    assert.equal(day.target_kcal, expected, day.day);
+    assert.equal(day.target_kcal.includes("3800"), false);
+    assert.match(day.target_kcal, /^\d+–\d+$/);
     const sum = day.meals.reduce((acc, meal) => ({
       kcal: acc.kcal + meal.kcal,
       protein: acc.protein + meal.protein,
@@ -89,4 +94,31 @@ test("weekly json stays wired together", () => {
       if (meal.recipe_id) assert.ok(ids.has(meal.recipe_id), meal.recipe_id);
     });
   });
+  const app = readFileSync("app.js", "utf8");
+  const css = readFileSync("styles.css", "utf8");
+  assert.equal(app.includes("/ ${escapeHtml(day.target_kcal)}"), false);
+  assert.match(app, /цель \$\{escapeHtml\(day\.target_kcal\)\}/);
+  assert.deepEqual([...app.matchAll(/hero: "([^"]+)"/g)].map((match) => match[1]), [
+    "img/days/day-press-shoulders.webp",
+    "img/days/day-pullups.webp",
+    "img/days/day-home-mobility.webp",
+    "img/days/day-tennis.webp",
+    "img/days/day-shoulders-legs.webp",
+    "img/days/day-pullups.webp",
+    "img/days/day-sunday-rest-prep.webp"
+  ]);
+  assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
+  assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
+  const sw = readFileSync("sw.js", "utf8");
+  assert.match(sw, /boets-v5/);
+  for (const file of [
+    "img/days/day-tennis.webp",
+    "img/days/day-press-shoulders.webp",
+    "img/days/day-shoulders-legs.webp",
+    "img/days/day-pullups.webp",
+    "img/days/day-home-mobility.webp",
+    "img/days/day-sunday-rest-prep.webp"
+  ]) {
+    assert.match(sw, new RegExp(file.replaceAll(".", "\\.")));
+  }
 });

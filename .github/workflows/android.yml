@@ -69,6 +69,30 @@ jobs:
       - name: Rename APK
         run: cp android/app/build/outputs/apk/release/app-release.apk boets.apk
 
+      - name: Verify launcher foreground
+        run: |
+          set -euo pipefail
+          AAPT2="$(find "${ANDROID_HOME}/build-tools" -type f -name aapt2 | sort | tail -n 1)"
+          if [ -z "${AAPT2}" ]; then
+            echo "aapt2 not found under ${ANDROID_HOME}/build-tools" >&2
+            exit 1
+          fi
+          DUMP="$("${AAPT2}" dump resources boets.apk)"
+          echo "${DUMP}" | grep ic_launcher_foreground
+          FOREGROUND="$(echo "${DUMP}" | grep ic_launcher_foreground || true)"
+          if echo "${FOREGROUND}" | grep -q 'drawable/ic_launcher_foreground'; then
+            echo "ic_launcher_foreground is still a drawable resource" >&2
+            exit 1
+          fi
+          if ! echo "${FOREGROUND}" | grep -q 'mipmap/ic_launcher_foreground'; then
+            echo "mipmap/ic_launcher_foreground is missing from the APK" >&2
+            exit 1
+          fi
+          if grep -a -q 'M32,64C32,64' boets.apk; then
+            echo "Capacitor robot foreground is still packaged" >&2
+            exit 1
+          fi
+
       - name: Publish GitHub Release
         if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
