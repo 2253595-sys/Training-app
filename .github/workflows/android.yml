@@ -4,14 +4,15 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: android-apk
-  cancel-in-progress: false
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   apk:
@@ -32,13 +33,28 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK packages
+      # ubuntu-latest already has the Android SDK and cmdline-tools.
+      # android-actions/setup-android@v3 runs `sdkmanager tools`, and cmdline-tools 16
+      # no longer ships that legacy package, so the step exits 1.
+      - name: Install Android SDK packages
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
+          set -euo pipefail
+          if [ -z "${ANDROID_HOME:-}" ]; then
+            echo "ANDROID_HOME is not set on this runner" >&2
+            exit 1
+          fi
+          SDKMANAGER="$(find "${ANDROID_HOME}/cmdline-tools" -type f -name sdkmanager | sort | tail -n 1)"
+          if [ -z "${SDKMANAGER}" ]; then
+            echo "sdkmanager not found under ${ANDROID_HOME}/cmdline-tools" >&2
+            exit 1
+          fi
+          echo "Using ${SDKMANAGER}"
+          yes | "${SDKMANAGER}" --sdk_root="${ANDROID_HOME}" --licenses >/dev/null || true
+          "${SDKMANAGER}" --sdk_root="${ANDROID_HOME}" --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;35.0.0" \
+            "build-tools;36.0.0"
 
       - name: Install dependencies
         run: npm ci
@@ -54,6 +70,7 @@ jobs:
         run: cp android/app/build/outputs/apk/release/app-release.apk boets.apk
 
       - name: Publish GitHub Release
+        if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: apk-${{ github.run_number }}
