@@ -101,6 +101,7 @@ test("weekly json stays wired together", () => {
   assert.deepEqual([...app.matchAll(/hero: "([^"]+)"/g)].map((match) => match[1]), [
     "img/days/day-press-shoulders.webp",
     "img/days/day-pullups.webp",
+    "img/days/day-home-mobility.webp",
     "img/days/day-tennis.webp",
     "img/days/day-shoulders-legs.webp",
     "img/days/day-pullups.webp",
@@ -108,5 +109,16 @@ test("weekly json stays wired together", () => {
   ]);
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
-  assert.match(readFileSync("sw.js", "utf8"), /boets-v5/);
+  const sw = readFileSync("sw.js", "utf8");
+  assert.match(sw, /boets-v5/);
+  for (const file of [
+    "img/days/day-tennis.webp",
+    "img/days/day-press-shoulders.webp",
+    "img/days/day-shoulders-legs.webp",
+    "img/days/day-pullups.webp",
+    "img/days/day-home-mobility.webp",
+    "img/days/day-sunday-rest-prep.webp"
+  ]) {
+    assert.match(sw, new RegExp(file.replaceAll(".", "\\.")));
+  }
 });

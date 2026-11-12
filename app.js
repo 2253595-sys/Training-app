@@ -150,6 +150,7 @@ const DAYS = [
   },
   {
     key: 3, short: "Ср", name: "Среда",
+    hero: "img/days/day-home-mobility.webp",
     title: "Ширина спины",
     place: "Зал", tag: "gym", duration: "65–75 мин",
     focus: "Спина · задние дельты · бицепс · бицепс бедра",
