@@ -950,7 +950,16 @@ const EX_ANIM = {
   "sleep-thread": "z-needle.mp4",
   "sleep-child": "z-child.mp4",
   "sleep-door": "chest-stretch.mp4",
-  "tennis-chest": "chest-stretch.mp4"
+  "tennis-chest": "chest-stretch.mp4",
+  "sleep-legs-child": "sleep-legs-child.mp4",
+  "sleep-legs-hipflexor": "sleep-legs-hipflexor.mp4",
+  "sleep-legs-quad": "sleep-legs-quad.mp4",
+  "sleep-legs-pigeon": "sleep-legs-pigeon.mp4",
+  "sleep-legs-9090": "sleep-legs-9090.mp4",
+  "sleep-legs-hamstring": "sleep-legs-hamstring.mp4",
+  "sleep-legs-frog": "sleep-legs-frog.mp4",
+  "sleep-legs-twist": "sleep-legs-twist.mp4",
+  "sleep-legs-butterfly": "sleep-legs-butterfly.mp4"
 };
 
 function renderAnim(ex) {

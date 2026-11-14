@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v11/);
+  assert.match(sw, /boets-v12/);
   assert.match(app, /"lat-raise": "lateral-raise-machine\.mp4"/);
   assert.match(app, /"z-lat": "side-lateral\.mp4"/);
   assert.match(app, /"lat-fri": "side-lateral\.mp4"/);
@@ -119,6 +119,11 @@ test("weekly json stays wired together", () => {
   assert.equal(sw.includes("./img/ex/"), false);
   assert.match(sw, /img\/ex\//);
   const { existsSync } = require("node:fs");
+  ["sleep-legs-child", "sleep-legs-hipflexor", "sleep-legs-quad", "sleep-legs-pigeon", "sleep-legs-9090", "sleep-legs-hamstring", "sleep-legs-frog", "sleep-legs-twist", "sleep-legs-butterfly"].forEach((id) => {
+    assert.match(app, new RegExp('"' + id + '": "' + id + '\\.mp4"'));
+    assert.equal(existsSync("img/ex/" + id + ".mp4"), true, id);
+    assert.equal(existsSync("img/ex/" + id + ".jpg"), true, id);
+  });
   const anim = [...app.matchAll(/"([a-z0-9-]+)": "([a-z0-9.-]+\.(?:mp4|webp))"/g)];
   const exIds = new Set([...app.matchAll(/id: "([^"]+)", name:/g)].map((match) => match[1]));
   const mapped = new Set();
