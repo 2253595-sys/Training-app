@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v15/);
+  assert.match(sw, /boets-v16/);
   assert.match(app, /"lat-raise": "lateral-raise-machine\.mp4"/);
   assert.match(app, /"z-lat": "side-lateral\.mp4"/);
   assert.match(app, /"lat-fri": "side-lateral\.mp4"/);
@@ -134,7 +134,28 @@ test("weekly json stays wired together", () => {
     if (match[2].endsWith(".mp4")) assert.equal(existsSync("img/ex/" + match[2].replace(/\.mp4$/, ".jpg")), true, match[2]);
   }
   const missing = [...exIds].filter((id) => !mapped.has(id)).sort();
-  assert.deepEqual(missing, ["mob-thu", "z-follow"]);
+  assert.deepEqual(missing, ["chest-mach", "mob-thu", "rear-delt", "rear-fri", "z-follow"]);
+  ["gym-abs", "rear-delt", "gym-biceps-machine", "chest-mach"].forEach((id) => {
+    assert.equal(app.includes('"' + id + '": "'), false, id + " must stay without video");
+  });
+  ["ab-crunch-machine", "biceps-machine", "chest-press-machine"].forEach((file) => {
+    assert.equal(existsSync("img/ex/" + file + ".mp4"), false, file);
+  });
+  assert.match(app, /"gym-ellipse": "elliptical\.mp4"/);
+  const blocks = readFileSync("blocks.js", "utf8");
+  const neckIds = ["neck-db-shrug", "neck-iso-front", "neck-iso-back", "neck-iso-side", "neck-ext-bed", "neck-side-lying", "neck-towel", "neck-bb-shrug", "neck-plate-flex", "neck-plate-ext"];
+  neckIds.forEach((id) => {
+    assert.match(app, new RegExp('"' + id + '": "' + id + '\\.mp4"'));
+    assert.match(blocks, new RegExp('move\\("' + id + '"'));
+    assert.equal(existsSync("img/ex/" + id + ".mp4"), true, id);
+    assert.equal(existsSync("img/ex/" + id + ".jpg"), true, id);
+  });
+  assert.equal(app.includes("neck-flex-bed") || blocks.includes("neck-flex-bed"), false);
+  assert.match(blocks, /type: "neck",\s*label: "Шея"/);
+  const blockIds = [...blocks.matchAll(/move\("([^"]+)"/g)].map((match) => match[1]);
+  const animIds = new Set(anim.map((match) => match[1]));
+  const blockMissing = [...new Set(blockIds)].filter((id) => !animIds.has(id)).sort();
+  assert.deepEqual(blockMissing.filter((id) => id.startsWith("gym-") || id.startsWith("neck-")), ["gym-abs", "gym-biceps-machine"]);
   const foodApi = load("food.js").BoetsFood;
   const dishes = new Set();
   menu.days.forEach((day) => day.meals.forEach((meal) => dishes.add(meal.dish)));
