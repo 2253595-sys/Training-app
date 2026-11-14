@@ -161,6 +161,45 @@ function eatenKey(index) {
   const iso = isoDate(addDays(today, idx - menuIndexFromDate(today)));
   return iso + "#" + index;
 }
+const FOOD_SLUGS = {
+  "Стандартный завтрак: творог 5% 250 г, банан 120 г, мёд 15 г": "tvorog-banan-med",
+  "Кремовая курица с рисом и карамелизированным луком": "kremovaya-kuritsa",
+  "ПП пирожки с яйцом и творогом": "pirozhki-yaitso-tvorog",
+  "Белковый салат «Биг Тейсти»": "big-tasty",
+  "Гречка с тушёным кабачком": "grechka-kabachok",
+  "Греческий йогурт 2%": "grecheskiy-yogurt",
+  "Салат с тунцом, яйцом и йогуртом": "salat-tunets",
+  "Рис отварной": "ris-otvarnoy",
+  "Запеканка-чизкейк с голубикой": "chizkeyk-golubika",
+  "Запечённая куриная грудка с гречкой и тушёными овощами": "kuritsa-grechka-ovoshchi",
+  "Творог 5%": "tvorog",
+  "Домашняя шаурма с индейкой": "shaurma-indeyka",
+  "Белковый чизкейк со смородиной": "chizkeyk-smorodina",
+  "Запечённый минтай с рисом и тушёными овощами": "mintay-ris",
+  "Белковый желатиновый десерт с какао": "desert-kakao",
+  "Запечённые шампиньоны в йогурте": "shampinony-yogurt",
+  "Куриная грудка и рис": "kuritsa-ris",
+  "Морковный салат с яблоком и йогуртом": "salat-morkov-yabloko",
+  "Хычины с творогом и лёгким сыром, 2 порц.": "hychiny",
+  "Хычины с творогом и лёгким сыром": "hychiny",
+  "Оливковое масло к овощам / хычинам": "olivkovoe-maslo",
+  "Йогурт и яблоко": "yogurt-yabloko",
+  "Огурец": "ogurets",
+  "Яблоко": "yabloko",
+  "Творожные хачапури-лодочки с сулугуни": "hachapuri-lodochki"
+};
+
+function foodSlug(title) {
+  if (FOOD_SLUGS[title]) return FOOD_SLUGS[title];
+  const map = { а:"a", б:"b", в:"v", г:"g", д:"d", е:"e", ё:"e", ж:"zh", з:"z", и:"i", й:"y", к:"k", л:"l", м:"m", н:"n", о:"o", п:"p", р:"r", с:"s", т:"t", у:"u", ф:"f", х:"h", ц:"ts", ч:"ch", ш:"sh", щ:"sch", ъ:"", ы:"y", ь:"", э:"e", ю:"yu", я:"ya" };
+  return String(title || "dish").toLowerCase().split("").map((ch) => (map[ch] != null ? map[ch] : ch)).join("").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 72) || "dish";
+}
+
+function foodPhotoHtml(title) {
+  const slug = foodSlug(title);
+  return `<div class="food-frame" data-food-slug="${escapeAttr(slug)}"><img class="food-photo" alt="" src="img/food/${escapeAttr(slug)}.webp" onerror="this.remove()"></div>`;
+}
+
 function renderMeal(meal, index) {
   const recipe = meal.recipe_id && FOOD.byId[meal.recipe_id];
   const on = !!(getState().eaten && getState().eaten[eatenKey(index)]);
@@ -169,6 +208,7 @@ function renderMeal(meal, index) {
       <div class="meal-row">
         <button type="button" class="ate${on ? " on" : ""}" data-ate="${index}" aria-pressed="${on ? "true" : "false"}">${on ? icon("check") : ""}</button>
         <div style="flex:1;min-width:0">
+          ${foodPhotoHtml(recipe ? recipe.title : meal.dish)}
           <div class="card-title">${escapeHtml(meal.name)}</div>
           <h3>${escapeHtml(meal.dish)}</h3>
           <p class="kbju"><span class="p">Б ${formatMacro(meal.protein)}</span> <span class="f">Ж ${formatMacro(meal.fat)}</span> <span class="c">У ${formatMacro(meal.carbs)}</span></p>
@@ -219,6 +259,7 @@ function renderRecipeCard(recipe) {
   const steps = (recipe.steps || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("");
   return `
     <article class="guide-card recipe" id="recipe-${escapeAttr(recipe.id)}">
+      ${foodPhotoHtml(recipe.title)}
       <div class="place-row">
         <span class="pill">${escapeHtml(recipe.category || "рецепт")}</span>
         <span class="meta">${recipe.servings} порц.</span>
@@ -378,5 +419,6 @@ globalThis.BoetsFood = {
   formatKbju: formatKbju,
   formatGrams: formatGrams,
   shopKey: shopKey,
-  carbRemainder: carbRemainder
+  carbRemainder: carbRemainder,
+  foodSlug: foodSlug
 };

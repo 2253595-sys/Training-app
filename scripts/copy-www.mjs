@@ -3,6 +3,7 @@ import { cpSync, mkdirSync, rmSync } from "node:fs";
 const files = [
   "index.html",
   "app.js",
+  "blocks.js",
   "activity.js",
   "food.js",
   "icons.js",
