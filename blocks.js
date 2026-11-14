@@ -97,6 +97,18 @@ const SLEEP_BREATH = [
   move("sleep-box", "Дыхание 4–6", 1, "6 циклов", 0, "Вдох на 4, выдох на 6.")
 ];
 
+const SLEEP_LEGS = [
+  move("sleep-legs-child", "Поза ребёнка с широкими коленями", 1, "45 сек", 0, "Колени широко, таз к пяткам, руки вперёд."),
+  move("sleep-legs-hipflexor", "Выпад на колене: сгибатели бедра", 2, "45 сек", 0, "Заднее колено на коврике, подкрути таз и подай вперёд. На каждую сторону."),
+  move("sleep-legs-quad", "Растяжка квадрицепса", 2, "45 сек", 0, "Возьми заднюю стопу рукой и тяни к ягодице. На каждую сторону."),
+  move("sleep-legs-pigeon", "Фигура 4 лёжа", 2, "45 сек", 0, "Стопу на колено, бедро тяни к груди. На каждую сторону."),
+  move("sleep-legs-9090", "90/90 с наклоном вперёд", 2, "45 сек", 0, "Обе ноги под 90°, наклон над передней голенью. На каждую сторону."),
+  move("sleep-legs-hamstring", "Задняя поверхность бедра с ремнём", 2, "45 сек", 0, "Прямую ногу вверх ремнём, колено не сгибай. На каждую сторону."),
+  move("sleep-legs-frog", "Лягушка", 1, "45 сек", 0, "На четвереньках колени широко, таз назад."),
+  move("sleep-legs-twist", "Скручивание лёжа", 2, "45 сек", 0, "Колени на бок, плечи на полу. На каждую сторону."),
+  move("sleep-legs-butterfly", "Бабочка с наклоном", 1, "45 сек", 0, "Стопы вместе, колени вниз, мягкий наклон.")
+];
+
 const BLOCK_CATALOG = [
   {
     type: "zaryadka",
@@ -163,7 +175,8 @@ const BLOCK_CATALOG = [
     variants: [
       { id: "hips", title: "Бёдра и поясница", minutes: "6 мин", exercises: function () { return SLEEP_HIPS; } },
       { id: "shoulders", title: "Плечи и грудной отдел", minutes: "5 мин", exercises: function () { return SLEEP_SHOULDERS; } },
-      { id: "breath", title: "Шея и дыхание", minutes: "4 мин", exercises: function () { return SLEEP_BREATH; } }
+      { id: "breath", title: "Шея и дыхание", minutes: "4 мин", exercises: function () { return SLEEP_BREATH; } },
+      { id: "legs", title: "Растяжка на ночь: ноги и таз", minutes: "12–15 мин", exercises: function () { return SLEEP_LEGS; } }
     ]
   }
 ];
