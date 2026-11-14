@@ -1,4 +1,4 @@
-const CACHE = "boets-v8";
+const CACHE = "boets-v9";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -6,6 +6,7 @@ const PRECACHE = [
   "./tokens.css",
   "./fonts.css",
   "./app.js",
+  "./blocks.js",
   "./activity.js",
   "./food.js",
   "./icons.js",
@@ -127,7 +128,7 @@ self.addEventListener("fetch", (event) => {
     }
     return;
   }
-  if (url.pathname.includes("/img/ex/")) {
+  if (url.pathname.includes("/img/ex/") || url.pathname.includes("/img/food/")) {
     event.respondWith(cachedExerciseAsset(req));
     return;
   }

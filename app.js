@@ -327,6 +327,7 @@ function getState() {
   if (!s.pullLevel) s.pullLevel = 1;
   if (!s.steps) s.steps = {};
   if (!s.shopping) s.shopping = {};
+  if (!s.blocks) s.blocks = {};
   return s;
 }
 function updateState(mut) {
@@ -629,21 +630,12 @@ function stepsOn(iso) {
 }
 function renderTodayHome(d, plan) {
   const iso = isoDate(d);
-  const stats = completedCount(iso, plan, "workout");
+  const stats = typeof blockProgress === "function" ? blockProgress(iso) : completedCount(iso, plan, "workout");
   const info = placeMeta(plan);
-  const next = nextOpen(iso, plan, "workout");
-  const zPlan = zaryadkaDisplayed(d);
-  const zStats = completedCount(iso, zPlan, "zaryadka");
   const steps = stepsOn(iso);
   const goal = typeof goalStatus === "function" ? goalStatus(steps, d) : { steps: steps, state: "below", goalLow: 10000, goalHigh: 10000, sunday: false };
   const manual = !(typeof isNativeApp === "function" && isNativeApp() && ui.activity && ui.activity.days && ui.activity.days.length);
   const foodCard = renderFoodTeaser(d);
-  const list = ui.showList ? `
-    ${plan.exercises.map((ex, i) => renderExercise(iso, "workout", ex, i)).join("")}
-    <div class="day-actions">
-      <button class="btn" type="button" data-act="complete-all">Отметить всё</button>
-      <button class="btn ghost" type="button" data-act="reset-day">Сбросить день</button>
-    </div>` : `<button class="linkish" type="button" data-show-list>Все упражнения</button>`;
   return `
     ${renderInstall()}
     ${renderWeekStrip(d)}
@@ -653,31 +645,15 @@ function renderTodayHome(d, plan) {
         <span class="pill ${info.pill}">${escapeHtml(info.type)}</span>
         ${info.location ? `<span class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(info.location)}</span>` : ""}
       </div>
-      <h2>${escapeHtml(plan.title)}</h2>
-      <p>${escapeHtml(plan.duration)} · ${escapeHtml(plan.focus)}</p>
-      ${healthNote(iso, "workout")}
+      <h2>${escapeHtml(plan.name)}</h2>
+      <p>Собери день из блоков: зарядка, зал, стол, офис, теннис, шаги или растяжка.</p>
       <div class="progress-line">
         <div class="bar"><span style="width:${stats.pct}%"></span></div>
         <b>${stats.done}/${stats.total}</b>
         <small>подходов</small>
       </div>
-      ${next ? `
-        <div class="next-row">
-          <div class="ex-num">${String(next.number).padStart(2, "0")}</div>
-          <div>
-            <h3>${escapeHtml(next.ex.name)}</h3>
-            <div class="chips"><span class="chip">${next.ex.sets} × ${escapeHtml(next.ex.reps)}</span>${next.ex.rest ? `<span class="chip rest">отдых ${formatRest(next.ex.rest)}</span>` : ""}</div>
-          </div>
-        </div>
-        <button class="btn primary" type="button" data-continue="${escapeAttr(next.ex.id)}">${icon("play")} Продолжить</button>` : `<button class="btn ok" type="button" disabled>Тренировка закрыта</button>`}
     </section>
-    <div class="dash-grid">
-      <button type="button" class="mini-card" data-open-warmup>
-        <div class="card-title">${icon("sunrise")} Зарядка</div>
-        <strong>${zStats.done}/${zStats.total}</strong>
-        <span>подходов · ${escapeHtml(zPlan.title.replace("Зарядка · ", ""))}</span>
-        <div class="loc" data-field="day.location">${icon("map-pin")} ${escapeHtml(PLACES.home.location)}</div>
-      </button>
+    <div class="dash-grid" style="grid-template-columns:1fr">
       <div class="mini-card">
         <div class="card-title">${icon("footprints")} Шаги</div>
         <strong>${formatSteps(steps)}</strong>
@@ -687,7 +663,7 @@ function renderTodayHome(d, plan) {
       </div>
     </div>
     ${foodCard}
-    ${list}`;
+    ${typeof renderDayComposer === "function" ? renderDayComposer(d) : ""}`;
 }
 function renderFoodTeaser(date) {
   if (!globalThis.FOOD || !FOOD.menu) return "";
@@ -963,7 +939,7 @@ const EX_ANIM = {
 
 function renderAnim(ex) {
   const file = EX_ANIM[ex.id];
-  if (!file) return `<div class="ex-anim ph" aria-hidden="true"><span>Нет демо</span></div>`;
+  if (!file) return `<div class="ex-anim ph" aria-hidden="true"><span>${escapeHtml(ex.name)}</span></div>`;
   const src = "img/ex/" + file;
   if (file.endsWith(".mp4")) {
     const poster = src.replace(/\.mp4$/, ".jpg");
@@ -1006,7 +982,7 @@ function renderExercise(iso, scope, ex, idx) {
   }).join("");
   const video = ex.video ? VIDEOS[ex.video] : null;
   return `
-    <article class="ex" data-ex-card="${ex.id}">
+    <article class="ex" data-ex-card="${ex.id}" data-scope="${escapeAttr(scope)}">
       <div class="ex-top">
         <div class="ex-num">${String(idx + 1).padStart(2, "0")}</div>
         <div style="flex:1;min-width:0">
@@ -1206,7 +1182,11 @@ function bind(d, plan) {
   });
   document.querySelectorAll("[data-set]").forEach((b) => {
     b.addEventListener("click", () => {
-      const { iso, plan: p, scope } = currentPlanAndScope();
+      const current = currentPlanAndScope();
+      const card = b.closest("[data-scope]");
+      const scope = card && card.dataset.scope ? card.dataset.scope : current.scope;
+      const iso = current.iso;
+      const p = scope.indexOf("blk-") === 0 && typeof blockPlanForScope === "function" ? blockPlanForScope(scope) : current.plan;
       const exId = b.dataset.ex;
       const i = Number(b.dataset.set);
       let started = false;
@@ -1229,7 +1209,10 @@ function bind(d, plan) {
   });
   document.querySelectorAll("[data-weight]").forEach((inp) => {
     inp.addEventListener("change", () => {
-      const { iso, scope } = currentPlanAndScope();
+      const current = currentPlanAndScope();
+      const card = inp.closest("[data-scope]");
+      const scope = card && card.dataset.scope ? card.dataset.scope : current.scope;
+      const iso = current.iso;
       const exId = inp.dataset.weight;
       const val = inp.value;
       const prev = getState().lastWeights[exId] || "";
@@ -1416,6 +1399,7 @@ function bind(d, plan) {
   }
   if (typeof bindFood === "function") bindFood();
   if (typeof bindActivity === "function") bindActivity();
+  if (typeof bindDayBlocks === "function") bindDayBlocks();
   bindAnims();
 }
 

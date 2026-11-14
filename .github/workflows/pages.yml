@@ -32,8 +32,8 @@ jobs:
 
       - name: Stage site
         run: |
-          mkdir -p _site/data _site/brand _site/fonts _site/img/days _site/img/ex
-          cp index.html app.js activity.js food.js icons.js styles.css tokens.css fonts.css sw.js manifest.webmanifest .nojekyll \
+          mkdir -p _site/data _site/brand _site/fonts _site/img/days _site/img/ex _site/img/food
+          cp index.html app.js blocks.js activity.js food.js icons.js styles.css tokens.css fonts.css sw.js manifest.webmanifest .nojekyll \
             favicon.png apple-touch-icon.png icon-192.png icon-512.png icon-maskable-192.png icon-maskable-512.png \
             _site/
           cp data/recipes.json data/menu-week.json data/shopping-week.json _site/data/
@@ -43,6 +43,9 @@ jobs:
             cp img/days/*.webp _site/img/days/
           fi
           cp img/ex/* _site/img/ex/
+          if [ -d img/food ]; then
+            cp img/food/*.webp _site/img/food/
+          fi
           cp fonts/*.woff2 _site/fonts/
 
       - name: Upload Pages artifact

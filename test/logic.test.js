@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v8/);
+  assert.match(sw, /boets-v9/);
   assert.equal(sw.includes("./img/ex/"), false);
   assert.match(sw, /img\/ex\//);
   const { existsSync } = require("node:fs");
@@ -125,6 +125,15 @@ test("weekly json stays wired together", () => {
   }
   const missing = [...exIds].filter((id) => !mapped.has(id)).sort();
   assert.deepEqual(missing, ["mob-thu", "z-follow"]);
+  const foodApi = load("food.js").BoetsFood;
+  const dishes = new Set();
+  menu.days.forEach((day) => day.meals.forEach((meal) => dishes.add(meal.dish)));
+  recipes.forEach((recipe) => dishes.add(recipe.title));
+  dishes.forEach((dish) => {
+    const slug = foodApi.foodSlug(dish);
+    assert.equal(existsSync("img/food/" + slug + ".webp"), true, dish + " -> " + slug);
+  });
+  assert.equal(foodApi.foodSlug("Новое блюдо"), "novoe-blyudo");
   for (const file of [
     "img/days/day-tennis.webp",
     "img/days/day-press-shoulders.webp",
