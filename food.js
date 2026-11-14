@@ -35,6 +35,60 @@ function formatKbju(kcal, protein, fat, carbs) {
   return `${formatMacro(kcal)} ккал · Б ${formatMacro(protein)} · Ж ${formatMacro(fat)} · У ${formatMacro(carbs)}`;
 }
 
+function pieceGrams(name, count) {
+  const label = String(name || "").toLowerCase();
+  const n = Number(count) || 1;
+  const standards = [["лаваш", 102], ["яйц", 55], ["банан", 120], ["яблок", 150], ["огурец", 150]];
+  for (let i = 0; i < standards.length; i++) {
+    if (label.indexOf(standards[i][0]) !== -1) return standards[i][1] * n;
+  }
+  return null;
+}
+
+function portionFromItems(items, servings) {
+  let total = 0;
+  let estimated = false;
+  (items || []).forEach((item) => {
+    if (item.grams != null && item.grams !== "") total += Number(item.grams);
+    else if (item.ml != null && item.ml !== "") {
+      total += Number(item.ml);
+      estimated = true;
+    } else {
+      const guessed = pieceGrams(item.name, item.count || item.pieces || 1);
+      if (guessed) {
+        total += guessed;
+        estimated = true;
+      }
+    }
+  });
+  const portions = Number(servings) || 1;
+  return { grams: Math.round(total / portions), estimated: true };
+}
+
+function portionOf(entry) {
+  if (!entry) return { grams: null, estimated: true };
+  if (entry.portionWeightG != null && entry.portionWeightG !== "") {
+    return { grams: Math.round(Number(entry.portionWeightG)), estimated: entry.portionWeightEstimated !== false };
+  }
+  if (entry.ingredients) return portionFromItems(entry.ingredients, entry.servings || 1);
+  return portionFromItems(entry.items, 1);
+}
+
+function kcalPer100(kcal, grams) {
+  const weight = Number(grams);
+  const energy = Number(kcal);
+  if (!weight || !Number.isFinite(energy)) return null;
+  return Math.round(energy / weight * 100);
+}
+
+function formatPortionLine(kcal, protein, fat, carbs, weightG, estimated) {
+  const grams = Math.round(Number(weightG));
+  const per100 = kcalPer100(kcal, grams);
+  const weight = grams > 0 ? "Порция " + (estimated ? "≈ " : "") + grams + " г" : "";
+  const density = per100 != null ? per100 + " ккал/100 г" : "";
+  return [weight, density, formatKbju(kcal, protein, fat, carbs)].filter(Boolean).join(" · ");
+}
+
 function formatGrams(value) {
   if (value == null || value === "") return "";
   const n = Number(value);
@@ -211,7 +265,7 @@ function renderMeal(meal, index) {
           ${foodPhotoHtml(recipe ? recipe.title : meal.dish)}
           <div class="card-title">${escapeHtml(meal.name)}</div>
           <h3>${escapeHtml(meal.dish)}</h3>
-          <p class="kbju"><span class="p">Б ${formatMacro(meal.protein)}</span> <span class="f">Ж ${formatMacro(meal.fat)}</span> <span class="c">У ${formatMacro(meal.carbs)}</span></p>
+          <p class="kbju">${formatPortionLine(meal.kcal, meal.protein, meal.fat, meal.carbs, portionOf(meal).grams, portionOf(meal).estimated)}</p>
           ${meal.note ? `<p class="notes">${escapeHtml(meal.note)}</p>` : ""}
           ${recipe ? `<div class="ig-links"><button type="button" class="ig-btn" data-recipe="${escapeAttr(recipe.id)}">Рецепт</button><a class="ig-btn" href="${escapeAttr(recipe.source_url)}" target="_blank" rel="noopener noreferrer">Смотреть в Instagram</a></div>` : ""}
         </div>
@@ -267,7 +321,7 @@ function renderRecipeCard(recipe) {
       </div>
       <h3>${escapeHtml(recipe.title)}</h3>
       <p class="notes" style="margin-top:0">${escapeHtml(recipe.author || "")}</p>
-      <p class="kbju">${formatKbju(recipe.kcal, recipe.protein, recipe.fat, recipe.carbs)} на порцию</p>
+      <p class="kbju">${formatPortionLine(recipe.kcal, recipe.protein, recipe.fat, recipe.carbs, portionOf(recipe).grams, portionOf(recipe).estimated)}</p>
       <h4>Ингредиенты</h4>
       <ul>${ingredients}</ul>
       <h4>Шаги</h4>
@@ -420,5 +474,8 @@ globalThis.BoetsFood = {
   formatGrams: formatGrams,
   shopKey: shopKey,
   carbRemainder: carbRemainder,
-  foodSlug: foodSlug
+  foodSlug: foodSlug,
+  portionOf: portionOf,
+  kcalPer100: kcalPer100,
+  formatPortionLine: formatPortionLine
 };

@@ -43,7 +43,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -87,7 +89,9 @@
           "protein": 50.0,
           "fat": 23.0,
           "carbs": 54.0,
-          "note": "Порция из заготовки на 6 контейнеров."
+          "note": "Порция из заготовки на 6 контейнеров.",
+          "portionWeightG": 390,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -127,7 +131,9 @@
           "protein": 19.9,
           "fat": 10.3,
           "carbs": 6.0,
-          "note": "Запечённый, не жареный."
+          "note": "Запечённый, не жареный.",
+          "portionWeightG": 104,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -174,7 +180,9 @@
           "kcal": 370,
           "protein": 45.0,
           "fat": 13.0,
-          "carbs": 15.0
+          "carbs": 15.0,
+          "portionWeightG": 485,
+          "portionWeightEstimated": true
         },
         {
           "name": "Гарнир к ужину",
@@ -197,7 +205,9 @@
           "kcal": 268,
           "protein": 8.5,
           "fat": 7.4,
-          "carbs": 43.0
+          "carbs": 43.0,
+          "portionWeightG": 215,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -212,7 +222,9 @@
           "kcal": 110,
           "protein": 12.0,
           "fat": 3.0,
-          "carbs": 6.0
+          "carbs": 6.0,
+          "portionWeightG": 150,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -249,7 +261,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -289,7 +303,9 @@
           "protein": 27.5,
           "fat": 5.3,
           "carbs": 17.5,
-          "note": "Собрать утром, рис отдельно."
+          "note": "Собрать утром, рис отдельно.",
+          "portionWeightG": 348,
+          "portionWeightEstimated": true
         },
         {
           "name": "Гарнир к обеду",
@@ -304,7 +320,9 @@
           "kcal": 167,
           "protein": 3.4,
           "fat": 0.3,
-          "carbs": 37.0
+          "carbs": 37.0,
+          "portionWeightG": 50,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -332,7 +350,9 @@
           "protein": 19.0,
           "fat": 10.5,
           "carbs": 34.0,
-          "note": "Половина запеканки."
+          "note": "Половина запеканки.",
+          "portionWeightG": 295,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -368,7 +388,9 @@
           "protein": 50.8,
           "fat": 14.4,
           "carbs": 48.0,
-          "note": "Овощи тушить, не есть большой сырой салат за раз."
+          "note": "Овощи тушить, не есть большой сырой салат за раз.",
+          "portionWeightG": 510,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -383,7 +405,9 @@
           "kcal": 182,
           "protein": 25.8,
           "fat": 7.5,
-          "carbs": 2.7
+          "carbs": 2.7,
+          "portionWeightG": 150,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -420,7 +444,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -464,7 +490,9 @@
           "protein": 40.8,
           "fat": 16.7,
           "carbs": 65.5,
-          "note": "Из воскресной заготовки, удобно взять в зал/на работу."
+          "note": "Из воскресной заготовки, удобно взять в зал/на работу.",
+          "portionWeightG": 377,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -496,7 +524,9 @@
           "protein": 17.5,
           "fat": 7.0,
           "carbs": 33.0,
-          "note": "Половина чизкейка."
+          "note": "Половина чизкейка.",
+          "portionWeightG": 295,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -528,7 +558,9 @@
           "protein": 47.7,
           "fat": 13.6,
           "carbs": 77.6,
-          "note": "Рыбу и овощи запекать или тушить — так мягче для кишечника."
+          "note": "Рыбу и овощи запекать или тушить — так мягче для кишечника.",
+          "portionWeightG": 600,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -555,7 +587,9 @@
           "kcal": 132,
           "protein": 23.9,
           "fat": 2.1,
-          "carbs": 5.9
+          "carbs": 5.9,
+          "portionWeightG": 189,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -592,7 +626,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -616,7 +652,9 @@
           "protein": 22.0,
           "fat": 3.5,
           "carbs": 18.5,
-          "note": "Половина рецепта; вторая порция в холодильник."
+          "note": "Половина рецепта; вторая порция в холодильник.",
+          "portionWeightG": 528,
+          "portionWeightEstimated": true
         },
         {
           "name": "К обеду",
@@ -639,7 +677,9 @@
           "kcal": 377,
           "protein": 38.8,
           "fat": 7.1,
-          "carbs": 37.0
+          "carbs": 37.0,
+          "portionWeightG": 205,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -675,7 +715,9 @@
           "protein": 8.7,
           "fat": 3.4,
           "carbs": 26.9,
-          "note": "Одна треть салата, не всю миску сразу."
+          "note": "Одна треть салата, не всю миску сразу.",
+          "portionWeightG": 291,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -708,7 +750,9 @@
           "fat": 10.4,
           "carbs": 75.0,
           "portions": 2,
-          "note": "Два хычина запечь из морозилки, без жарки."
+          "note": "Два хычина запечь из морозилки, без жарки.",
+          "portionWeightG": 353,
+          "portionWeightEstimated": true
         },
         {
           "name": "К ужину",
@@ -727,7 +771,9 @@
           "kcal": 112,
           "protein": 1.0,
           "fat": 10.1,
-          "carbs": 3.8
+          "carbs": 3.8,
+          "portionWeightG": 160,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -742,7 +788,9 @@
           "kcal": 121,
           "protein": 17.2,
           "fat": 5.0,
-          "carbs": 1.8
+          "carbs": 1.8,
+          "portionWeightG": 100,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -779,7 +827,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -822,7 +872,9 @@
           "kcal": 618,
           "protein": 50.0,
           "fat": 23.0,
-          "carbs": 54.0
+          "carbs": 54.0,
+          "portionWeightG": 390,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -849,7 +901,9 @@
           "kcal": 132,
           "protein": 23.9,
           "fat": 2.1,
-          "carbs": 5.9
+          "carbs": 5.9,
+          "portionWeightG": 189,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -892,7 +946,9 @@
           "kcal": 575,
           "protein": 40.8,
           "fat": 16.7,
-          "carbs": 65.5
+          "carbs": 65.5,
+          "portionWeightG": 377,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -911,7 +967,9 @@
           "kcal": 224,
           "protein": 16.4,
           "fat": 4.3,
-          "carbs": 29.0
+          "carbs": 29.0,
+          "portionWeightG": 350,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -948,7 +1006,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -992,7 +1052,9 @@
           "protein": 40.8,
           "fat": 16.7,
           "carbs": 65.5,
-          "note": "Третья шаурма за неделю; остальные заморозить."
+          "note": "Третья шаурма за неделю; остальные заморозить.",
+          "portionWeightG": 377,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -1020,7 +1082,9 @@
           "protein": 19.0,
           "fat": 10.5,
           "carbs": 34.0,
-          "note": "Вторая половина запеканки."
+          "note": "Вторая половина запеканки.",
+          "portionWeightG": 295,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -1067,7 +1131,9 @@
           "kcal": 370,
           "protein": 45.0,
           "fat": 13.0,
-          "carbs": 15.0
+          "carbs": 15.0,
+          "portionWeightG": 485,
+          "portionWeightEstimated": true
         },
         {
           "name": "К ужину",
@@ -1082,7 +1148,9 @@
           "kcal": 22,
           "protein": 1.0,
           "fat": 0.2,
-          "carbs": 3.8
+          "carbs": 3.8,
+          "portionWeightG": 150,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -1097,7 +1165,9 @@
           "kcal": 145,
           "protein": 20.6,
           "fat": 6.0,
-          "carbs": 2.2
+          "carbs": 2.2,
+          "portionWeightG": 120,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
@@ -1134,7 +1204,9 @@
           "kcal": 460,
           "protein": 44.0,
           "fat": 13.0,
-          "carbs": 45.0
+          "carbs": 45.0,
+          "portionWeightG": 385,
+          "portionWeightEstimated": true
         },
         {
           "name": "Обед",
@@ -1162,7 +1234,9 @@
           "protein": 55.0,
           "fat": 23.6,
           "carbs": 29.2,
-          "note": "Одно хачапури; второе заморозить. Не сочетать с кремовым соусом."
+          "note": "Одно хачапури; второе заморозить. Не сочетать с кремовым соусом.",
+          "portionWeightG": 304,
+          "portionWeightEstimated": true
         },
         {
           "name": "Перекус",
@@ -1194,7 +1268,9 @@
           "protein": 17.5,
           "fat": 7.0,
           "carbs": 33.0,
-          "note": "Вторая половина чизкейка."
+          "note": "Вторая половина чизкейка.",
+          "portionWeightG": 295,
+          "portionWeightEstimated": true
         },
         {
           "name": "Ужин",
@@ -1226,7 +1302,9 @@
           "protein": 37.6,
           "fat": 7.8,
           "carbs": 56.7,
-          "note": "Рыбу и овощи запекать или тушить — так мягче для кишечника."
+          "note": "Рыбу и овощи запекать или тушить — так мягче для кишечника.",
+          "portionWeightG": 495,
+          "portionWeightEstimated": true
         },
         {
           "name": "Вечер",
@@ -1253,7 +1331,9 @@
           "kcal": 132,
           "protein": 23.9,
           "fat": 2.1,
-          "carbs": 5.9
+          "carbs": 5.9,
+          "portionWeightG": 189,
+          "portionWeightEstimated": true
         },
         {
           "name": "Фрукт",
@@ -1268,7 +1348,9 @@
           "kcal": 78,
           "protein": 0.4,
           "fat": 0.3,
-          "carbs": 21.0
+          "carbs": 21.0,
+          "portionWeightG": 150,
+          "portionWeightEstimated": true
         }
       ],
       "totals": {
