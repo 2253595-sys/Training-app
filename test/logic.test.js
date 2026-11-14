@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v16/);
+  assert.match(sw, /boets-v17/);
   assert.match(app, /"lat-raise": "lateral-raise-machine\.mp4"/);
   assert.match(app, /"z-lat": "side-lateral\.mp4"/);
   assert.match(app, /"lat-fri": "side-lateral\.mp4"/);
@@ -134,8 +134,8 @@ test("weekly json stays wired together", () => {
     if (match[2].endsWith(".mp4")) assert.equal(existsSync("img/ex/" + match[2].replace(/\.mp4$/, ".jpg")), true, match[2]);
   }
   const missing = [...exIds].filter((id) => !mapped.has(id)).sort();
-  assert.deepEqual(missing, ["chest-mach", "mob-thu", "rear-delt", "rear-fri", "z-follow"]);
-  ["gym-abs", "rear-delt", "gym-biceps-machine", "chest-mach"].forEach((id) => {
+  assert.deepEqual(missing, ["chair-flow", "chest-mach", "mob-thu", "rear-delt", "rear-fri", "z-follow"]);
+  ["gym-abs", "rear-delt", "gym-biceps-machine", "chest-mach", "chair-flow", "desk-eyes"].forEach((id) => {
     assert.equal(app.includes('"' + id + '": "'), false, id + " must stay without video");
   });
   ["ab-crunch-machine", "biceps-machine", "chest-press-machine"].forEach((file) => {
