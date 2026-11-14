@@ -961,7 +961,7 @@ const EX_ANIM = {
   "sleep-legs-pigeon": "sleep-legs-pigeon.mp4",
   "sleep-legs-9090": "sleep-legs-9090.mp4",
   "sleep-legs-hamstring": "sleep-legs-hamstring.mp4",
-  "sleep-legs-frog": "sleep-legs-frog.mp4",
+  "sleep-reclined-butterfly": "sleep-reclined-butterfly.mp4",
   "sleep-legs-twist": "sleep-legs-twist.mp4",
   "sleep-legs-butterfly": "sleep-legs-butterfly.mp4"
 };
