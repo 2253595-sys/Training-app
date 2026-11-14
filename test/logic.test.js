@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v10/);
+  assert.match(sw, /boets-v11/);
   assert.match(app, /"lat-raise": "lateral-raise-machine\.mp4"/);
   assert.match(app, /"z-lat": "side-lateral\.mp4"/);
   assert.match(app, /"lat-fri": "side-lateral\.mp4"/);
@@ -139,6 +139,13 @@ test("weekly json stays wired together", () => {
     assert.equal(existsSync("img/food/" + slug + ".webp"), true, dish + " -> " + slug);
   });
   assert.equal(foodApi.foodSlug("Новое блюдо"), "novoe-blyudo");
+  const cocoa = recipes.find((recipe) => recipe.id === "DdD3a70t-np");
+  assert.equal(cocoa.portionWeightG, 189);
+  assert.equal(foodApi.kcalPer100(cocoa.kcal, cocoa.portionWeightG), 70);
+  assert.equal(foodApi.formatPortionLine(132, 23.9, 2.1, 5.9, 189, true), "Порция ≈ 189 г · 70 ккал/100 г · 132 ккал · Б 23,9 · Ж 2,1 · У 5,9");
+  menu.days.forEach((day) => day.meals.forEach((meal) => {
+    assert.ok(meal.portionWeightG > 0, meal.dish);
+  }));
   for (const file of [
     "img/days/day-tennis.webp",
     "img/days/day-press-shoulders.webp",
