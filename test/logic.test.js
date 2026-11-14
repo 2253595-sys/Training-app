@@ -110,7 +110,7 @@ test("weekly json stays wired together", () => {
   assert.match(css, /\.day-hero[\s\S]*object-fit:\s*cover;/);
   assert.match(css, /\.day-hero[\s\S]*object-position:\s*center 25%;/);
   const sw = readFileSync("sw.js", "utf8");
-  assert.match(sw, /boets-v13/);
+  assert.match(sw, /boets-v14/);
   assert.match(app, /"lat-raise": "lateral-raise-machine\.mp4"/);
   assert.match(app, /"z-lat": "side-lateral\.mp4"/);
   assert.match(app, /"lat-fri": "side-lateral\.mp4"/);
