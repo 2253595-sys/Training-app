@@ -109,6 +109,23 @@ const SLEEP_LEGS = [
   move("sleep-legs-butterfly", "Бабочка с наклоном", 1, "45 сек", 0, "Стопы вместе, колени вниз, мягкий наклон.")
 ];
 
+const NECK_HOME = [
+  move("neck-db-shrug", "Шраги с гантелями", 3, "12–15", 60, "Плечи к ушам, пауза 1 с, руки прямые.", true),
+  move("neck-iso-front", "Изометрия шеи вперёд", 3, "15–20 сек", 30, "Ладонь на лоб, дави на 50–70%, голова неподвижна."),
+  move("neck-iso-back", "Изометрия шеи назад", 3, "15–20 сек", 30, "Ладони на затылок, дави на 50–70%, подбородок не задирай."),
+  move("neck-iso-side", "Изометрия шеи в сторону", 3, "15–20 сек", 30, "Ладонь у виска, голова неподвижна. На каждую сторону."),
+  move("neck-ext-bed", "Разгибание шеи на кровати", 2, "15–20", 45, "Лёжа на животе, голова за краем. Медленно, без рывков."),
+  move("neck-side-lying", "Боковые подъёмы головы лёжа", 2, "15–20", 45, "Ухо к плечу и обратно, медленно. На каждую сторону."),
+  move("neck-towel", "Разгибание шеи с полотенцем", 2, "15–20", 45, "Полотенце на затылке, мягкое сопротивление, без рывков.")
+];
+
+const NECK_GYM = [
+  move("neck-bb-shrug", "Шраги со штангой", 3, "12–15", 60, "Плечи к ушам, пауза 1 с, без перекатов плечами.", true),
+  move("neck-plate-flex", "Сгибание шеи с блином", 3, "15–20", 45, "Лёжа на спине, блин на лбу через полотенце. Подбородок к груди медленно.", true),
+  move("neck-plate-ext", "Разгибание шеи с блином", 3, "15–20", 45, "Лёжа на животе, блин на затылке. Медленно, без рывков.", true),
+  move("neck-iso-side", "Изометрия шеи в сторону", 3, "15–20 сек", 30, "Ладонь у виска, голова неподвижна. На каждую сторону.")
+];
+
 const BLOCK_CATALOG = [
   {
     type: "zaryadka",
@@ -169,6 +186,15 @@ const BLOCK_CATALOG = [
     ]
   },
   {
+    type: "neck",
+    label: "Шея",
+    hint: "2–3 раза в неделю, не подряд. Без боли, медленно.",
+    variants: [
+      { id: "home", title: "Шея дома", minutes: "12–15 мин", exercises: function () { return NECK_HOME; } },
+      { id: "gym", title: "Шея в зале", minutes: "10–12 мин", exercises: function () { return NECK_GYM; } }
+    ]
+  },
+  {
     type: "sleep",
     label: "Растяжка перед сном",
     hint: "На полу или на кровати, без оборудования.",
@@ -193,6 +219,7 @@ function defaultVariant(type, date) {
     if (dow === 5) return "fri";
     return "mon";
   }
+  if (type === "neck") return (dow === 1 || dow === 3 || dow === 5) ? "gym" : "home";
   const block = catalogBlock(type);
   return block.variants[0].id;
 }
@@ -312,3 +339,5 @@ globalThis.BLOCK_CATALOG = BLOCK_CATALOG;
 globalThis.GYM_MON = GYM_MON;
 globalThis.GYM_WED = GYM_WED;
 globalThis.GYM_FRI = GYM_FRI;
+globalThis.NECK_HOME = NECK_HOME;
+globalThis.NECK_GYM = NECK_GYM;
