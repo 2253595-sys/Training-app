@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -16,7 +17,35 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Stage site
+        run: |
+          mkdir -p _site/data _site/brand _site/fonts _site/img/days _site/img/ex _site/img/food
+          cp index.html app.js blocks.js activity.js food.js icons.js styles.css tokens.css fonts.css sw.js manifest.webmanifest .nojekyll \
+            favicon.png apple-touch-icon.png icon-192.png icon-512.png icon-maskable-192.png icon-maskable-512.png \
+            _site/
+          cp data/recipes.json data/menu-week.json data/shopping-week.json _site/data/
+          cp brand/logo-horizontal-tight.svg brand/logo-compact.svg brand/logo-compact-tight.svg _site/brand/
+          cp img/*.webp _site/img/
+          if [ -d img/days ]; then
+            cp img/days/*.webp _site/img/days/
+          fi
+          cp img/ex/* _site/img/ex/
+          if [ -d img/food ]; then
+            cp img/food/*.webp _site/img/food/
+          fi
+          cp fonts/*.woff2 _site/fonts/
+          test -f _site/img/ex/bench-press.mp4
+          test -f _site/img/ex/lateral-raise-machine.mp4
+
   deploy:
+    needs: stage
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
